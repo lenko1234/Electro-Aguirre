@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Electro Aguirre S.R.L.</title>
+    <meta name="description" content="Catálogo completo de materiales eléctricos e iluminación.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .catalog-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            padding: 60px 0;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-group h4 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .filter-list li {
+            margin-bottom: 10px;
+        }
+
+        .filter-list a {
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-list a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .catalog-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-electro">ELECTRO</span>
+                <span class="logo-aguirre">Aguirre</span>
+                <span class="logo-srl">S.R.L.</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html" style="color: var(--primary-color);">Productos</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="index.html#contacto" class="btn-contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Nuestro Catálogo</h1>
+            <p>Explora nuestra amplia gama de productos</p>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="catalog-layout">
+            <aside class="filters">
+                <div class="filter-group">
+                    <h4>Categorías</h4>
+                    <ul class="filter-list">
+                        <li><a href="#">Iluminación Hogar <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Iluminación Industrial <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Materiales Eléctricos <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Herramientas <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Cables y Conductores <i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </div>
+                <div class="filter-group">
+                    <h4>Marcas</h4>
+                    <ul class="filter-list">
+                        <li><a href="#">Philips</a></li>
+                        <li><a href="#">Schneider</a></li>
+                        <li><a href="#">Siemens</a></li>
+                        <li><a href="#">Osram</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main>
+                <div class="products-grid">
+                    <!-- Producto 1 -->
+                    <article class="product-card">
+                        <div class="card-image">
+                            <img src="assets/Gemini_Generated_Image_8r72xz8r72xz8r72.png" alt="Iluminación Hogar">
+                        </div>
+                        <div class="card-content">
+                            <h3>Lámpara Colgante Moderna</h3>
+                            <p>Diseño minimalista, ideal para comedor.</p>
+                            <a href="#" class="btn btn-outline"
+                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                        </div>
+                    </article>
+
+                    <!-- Producto 2 -->
+                    <article class="product-card">
+                        <div class="card-image">
+                            <img src="assets/iluminacion_industrial.png" alt="Iluminación Industrial">
+                        </div>
+                        <div class="card-content">
+                            <h3>Reflector LED 100W</h3>
+                            <p>Alta potencia para exteriores e industrias.</p>
+                            <a href="#" class="btn btn-outline"
+                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                        </div>
+                    </article>
+
+                    <!-- Producto 3 -->
+                    <article class="product-card">
+                        <div class="card-image">
+                            <img src="assets/materiales_instalacion.png" alt="Materiales de Instalación">
+                        </div>
+                        <div class="card-content">
+                            <h3>Kit Tomacorriente</h3>
+                            <p>Línea premium, doble toma con tierra.</p>
+                            <a href="#" class="btn btn-outline"
+                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                        </div>
+                    </article>
+
+                    <!-- Producto 4 -->
+                    <article class="product-card">
+                        <div class="card-image">
+                            <img src="assets/herramientas.png" alt="Herramientas">
+                        </div>
+                        <div class="card-content">
+                            <h3>Multímetro Digital</h3>
+                            <p>Medición precisa profesional.</p>
+                            <a href="#" class="btn btn-outline"
+                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                        </div>
+                    </article>
+
+                    <!-- Más productos de ejemplo -->
+                    <article class="product-card">
+                        <div class="card-image placeholder-gradient">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Lámpara LED Smart</h3>
+                            <p>Control por WiFi y colores RGB.</p>
+                            <a href="#" class="btn btn-outline"
+                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <div class="card-image placeholder-gradient">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Disyuntor Diferencial</h3>
+                            <p>Protección eléctrica esencial 25A.</p>
+                            <a href="#" class="btn btn-outline"
+                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                        </div>
+                    </article>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <footer id="contacto" class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo footer-logo">
+                        <span class="logo-electro">ELECTRO</span>
+                        <span class="logo-aguirre">Aguirre</span>
+                        <span class="logo-srl">S.R.L.</span>
+                    </div>
+                    <p>Tu aliado confiable en soluciones eléctricas e iluminación en Entre Ríos.</p>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>9 de julio 1342, Concepción del Uruguay, Entre Ríos</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:03442431555">03442-431555</a>
+                        </li>
+
+                        <i class="fab fa-whatsapp"></i>
+                        <a href="https://wa.me/5493446530460" target="_blank">+54 9 3446 53-0460</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-hours">
+                    <h3>Horarios</h3>
+                    <p>Lunes a Viernes: 8:00 - 18:45hs</p>
+                    <p>Sábados: 8:00 - 12:45hs</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Electro Aguirre S.R.L. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5493446530460" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
