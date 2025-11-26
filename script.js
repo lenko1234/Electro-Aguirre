@@ -3,32 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
 
-    mobileBtn.addEventListener('click', () => {
-        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        if (navLinks.style.display === 'flex') {
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '100%';
-            navLinks.style.left = '0';
-            navLinks.style.width = '100%';
-            navLinks.style.backgroundColor = 'white';
-            navLinks.style.padding = '20px';
-            navLinks.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-        }
-    });
+    if (mobileBtn) {
+        mobileBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.backgroundColor = 'white';
+                navLinks.style.padding = '20px';
+                navLinks.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            }
+        });
+    }
 
     // Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close mobile menu if open
-                if (window.innerWidth <= 768) {
-                    navLinks.style.display = 'none';
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 768 && navLinks) {
+                        navLinks.style.display = 'none';
+                    }
                 }
             }
         });
@@ -67,5 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.6s ease-out';
         observer.observe(el);
+    });
+
+    // WhatsApp Consultation Logic for Product Cards
+    const whatsappNumber = '5493446530460';
+    document.querySelectorAll('.product-card').forEach(card => {
+        const title = card.querySelector('h3')?.textContent.trim();
+        const consultBtn = card.querySelector('.btn');
+
+        if (title && consultBtn && consultBtn.textContent.trim() === 'Consultar') {
+            const message = encodeURIComponent(`Hola, como estas? Quisiera consultar por: ${title}`);
+            consultBtn.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+            consultBtn.target = '_blank';
+            consultBtn.setAttribute('rel', 'noopener noreferrer');
+        }
     });
 });
