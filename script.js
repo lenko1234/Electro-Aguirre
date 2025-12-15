@@ -94,61 +94,115 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial setup
     setupWhatsappButtons();
 
-    // Sanity Integration
+
+    // Sanity Integration with Filtering
     const productsGrid = document.getElementById('products-grid');
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        // Query: Fetch title, description, and resolve image URL
         const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
 
+        let allProducts = []; // Store all products globally
+        let currentFilter = null; // Track current filter
+
+        // Function to render products
+        function renderProducts(products) {
+            productsGrid.innerHTML = ''; // Clear grid
+
+            if (!products || products.length === 0) {
+                productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos en esta categoría.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const article = document.createElement('article');
+                article.className = 'product-card';
+                article.dataset.category = product.category || '';
+
+                const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
+
+                article.innerHTML = `
+                    <div class="card-image">
+                        <img src="${imgSrc}" alt="${product.title}">
+                    </div>
+                    <div class="card-content">
+                        <h3>${product.title}</h3>
+                        <p>${product.description || ''}</p>
+                        <a href="#" class="btn btn-outline"
+                            style="background: var(--primary-color); color: white; margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                    </div>
+                `;
+
+                // Apply animation styles
+                article.style.opacity = '0';
+                article.style.transform = 'translateY(20px)';
+                article.style.transition = 'all 0.6s ease-out';
+
+                productsGrid.appendChild(article);
+
+                // Observe for animation
+                observer.observe(article);
+            });
+
+            // Setup buttons for new elements
+            setupWhatsappButtons();
+        }
+
+        // Function to filter products by category
+        function filterByCategory(category) {
+            currentFilter = category;
+
+            if (!category || category.includes('Todos')) {
+                // Show all products
+                renderProducts(allProducts);
+            } else {
+                // Filter products by category
+                const filtered = allProducts.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+
+            // Update active state on filter links
+            document.querySelectorAll('.filter-list a').forEach(link => {
+                link.style.color = '';
+                link.style.fontWeight = '';
+            });
+
+            const activeLink = Array.from(document.querySelectorAll('.filter-list a'))
+                .find(link => link.textContent.trim().startsWith(category || 'Todos'));
+
+            if (activeLink) {
+                activeLink.style.color = 'var(--primary-color)';
+                activeLink.style.fontWeight = '600';
+            }
+        }
+
+        // Fetch products from Sanity
         fetch(API_URL)
             .then(res => res.json())
             .then(({ result }) => {
-                productsGrid.innerHTML = ''; // Clear "Loading..."
+                allProducts = result || [];
 
-                if (!result || result.length === 0) {
+                if (allProducts.length === 0) {
                     productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos cargados en este momento.</p>';
                     return;
                 }
 
-                result.forEach(product => {
-                    const article = document.createElement('article');
-                    article.className = 'product-card';
+                // Render all products initially
+                renderProducts(allProducts);
 
-                    // Fallback for image
-                    const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
-
-                    article.innerHTML = `
-                        <div class="card-image">
-                            <img src="${imgSrc}" alt="${product.title}">
-                        </div>
-                        <div class="card-content">
-                            <h3>${product.title}</h3>
-                            <p>${product.description || ''}</p>
-                            <a href="#" class="btn btn-outline"
-                                style="background: var(--primary-color); color: white; margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
-                        </div>
-                    `;
-
-                    // Apply animation styles
-                    article.style.opacity = '0';
-                    article.style.transform = 'translateY(20px)';
-                    article.style.transition = 'all 0.6s ease-out';
-
-                    productsGrid.appendChild(article);
-
-                    // Observe for animation
-                    observer.observe(article);
+                // Setup filter click handlers
+                document.querySelectorAll('.filter-list a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const categoryText = link.textContent.trim().replace(/\s*›\s*$/, '').trim();
+                        filterByCategory(categoryText);
+                    });
                 });
-
-                // Setup buttons for new elements
-                setupWhatsappButtons();
             })
             .catch(err => {
                 console.error('Error fetching Sanity products:', err);
-                productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Hubo un error cargando el catálogo. <br/ > <small>${err.message}</small></p>`;
+                productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Hubo un error cargando el catálogo. <br/> <small>${err.message}</small></p>`;
             });
     }
 });
