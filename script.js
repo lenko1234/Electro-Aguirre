@@ -122,13 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     article.innerHTML = `
                         <div class="card-image">
-                            <img src="${imgSrc}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="${imgSrc}" alt="${product.title}">
                         </div>
                         <div class="card-content">
                             <h3>${product.title}</h3>
                             <p>${product.description || ''}</p>
                             <a href="#" class="btn btn-outline"
-                                style="background: var(--primary-color); margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                                style="background: var(--primary-color); color: white; margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
                         </div>
                     `;
 
