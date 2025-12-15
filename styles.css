@@ -206,7 +206,7 @@ ul {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('assets/hero_bg.png');
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('assets/hero_bg_optimized.jpg');
     background-size: cover;
     background-position: center;
     position: relative;
