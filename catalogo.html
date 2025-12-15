@@ -46,7 +46,7 @@
         }
 
         .filter-list li {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .filter-list a {
@@ -60,6 +60,37 @@
             color: var(--primary-color);
         }
 
+        /* Collapsible categories button (hidden on desktop) */
+        .toggle-categories-btn {
+            display: none;
+            width: 100%;
+            padding: 10px 0;
+            margin-top: 5px;
+            background: transparent;
+            border: none;
+            border-top: 1px solid #eee;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .toggle-categories-btn:hover {
+            color: var(--primary-dark);
+        }
+
+        .toggle-categories-btn i {
+            float: right;
+            transition: transform 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .toggle-categories-btn.expanded i {
+            transform: rotate(180deg);
+        }
+
         @media (max-width: 768px) {
             .catalog-layout {
                 grid-template-columns: 1fr;
@@ -67,6 +98,25 @@
 
             .filters {
                 margin-bottom: 30px;
+                padding: 15px;
+            }
+
+            .filter-group {
+                margin-bottom: 10px;
+            }
+
+            .toggle-categories-btn {
+                display: block;
+            }
+
+            /* Hide categories 4+ on mobile by default */
+            .filter-list li.hidden-category {
+                display: none;
+            }
+
+            /* Show all categories when expanded */
+            .filter-list.expanded li.hidden-category {
+                display: block;
             }
         }
     </style>
@@ -102,18 +152,27 @@
             <aside class="filters">
                 <div class="filter-group">
                     <h4>Categorías</h4>
-                    <ul class="filter-list">
+                    <ul class="filter-list" id="categories-list">
                         <li><a href="#" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i
                                     class="fas fa-chevron-right"></i></a></li>
                         <li><a href="#">Iluminación Hogar <i class="fas fa-chevron-right"></i></a></li>
                         <li><a href="#">Iluminación Industrial <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Materiales Eléctricos <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Herramientas <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Cables y Conductores <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Ventiladores de Techo <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Ventiladores de Pie <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Artefactos Solares <i class="fas fa-chevron-right"></i></a></li>
+                        <li class="hidden-category"><a href="#">Materiales Eléctricos <i
+                                    class="fas fa-chevron-right"></i></a></li>
+                        <li class="hidden-category"><a href="#">Herramientas <i class="fas fa-chevron-right"></i></a>
+                        </li>
+                        <li class="hidden-category"><a href="#">Cables y Conductores <i
+                                    class="fas fa-chevron-right"></i></a></li>
+                        <li class="hidden-category"><a href="#">Ventiladores de Techo <i
+                                    class="fas fa-chevron-right"></i></a></li>
+                        <li class="hidden-category"><a href="#">Ventiladores de Pie <i
+                                    class="fas fa-chevron-right"></i></a></li>
+                        <li class="hidden-category"><a href="#">Artefactos Solares <i
+                                    class="fas fa-chevron-right"></i></a></li>
                     </ul>
+                    <button class="toggle-categories-btn" id="toggle-categories">
+                        Ver más categorías <i class="fas fa-chevron-down"></i>
+                    </button>
                 </div>
             </aside>
 

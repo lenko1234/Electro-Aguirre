@@ -94,6 +94,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial setup
     setupWhatsappButtons();
 
+    // Toggle categories button for mobile
+    const toggleCategoriesBtn = document.getElementById('toggle-categories');
+    const categoriesList = document.getElementById('categories-list');
+
+    if (toggleCategoriesBtn && categoriesList) {
+        toggleCategoriesBtn.addEventListener('click', () => {
+            categoriesList.classList.toggle('expanded');
+            toggleCategoriesBtn.classList.toggle('expanded');
+
+            const isExpanded = categoriesList.classList.contains('expanded');
+            toggleCategoriesBtn.innerHTML = isExpanded
+                ? 'Ver menos categorías <i class="fas fa-chevron-down"></i>'
+                : 'Ver más categorías <i class="fas fa-chevron-down"></i>';
+        });
+    }
+
 
     // Sanity Integration with Filtering
     const productsGrid = document.getElementById('products-grid');
