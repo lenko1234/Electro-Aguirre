@@ -205,4 +205,59 @@ document.addEventListener('DOMContentLoaded', () => {
                 productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Hubo un error cargando el catálogo. <br/> <small>${err.message}</small></p>`;
             });
     }
+
+    // Load Random Products for Home Page
+    const homeProductsGrid = document.getElementById('home-products-grid');
+    if (homeProductsGrid) {
+        const PROJECT_ID = 'gbe69kxi';
+        const DATASET = 'production';
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, "imageUrl": image.asset->url}');
+        const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
+
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(({ result }) => {
+                homeProductsGrid.innerHTML = ''; // Clear loading message
+
+                if (!result || result.length === 0) {
+                    homeProductsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos disponibles.</p>';
+                    return;
+                }
+
+                // Shuffle and get 4 random products
+                const shuffled = result.sort(() => 0.5 - Math.random());
+                const randomProducts = shuffled.slice(0, 4);
+
+                randomProducts.forEach(product => {
+                    const article = document.createElement('article');
+                    article.className = 'product-card';
+
+                    const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
+
+                    article.innerHTML = `
+                        <div class="card-image">
+                            <img src="${imgSrc}" alt="${product.title}">
+                        </div>
+                        <div class="card-content">
+                            <h3>${product.title}</h3>
+                            <p>${product.description || ''}</p>
+                        </div>
+                    `;
+
+                    // Apply animation styles
+                    article.style.opacity = '0';
+                    article.style.transform = 'translateY(20px)';
+                    article.style.transition = 'all 0.6s ease-out';
+
+                    homeProductsGrid.appendChild(article);
+
+                    // Observe for animation
+                    observer.observe(article);
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching home products:', err);
+                homeProductsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Error cargando productos.</p>`;
+            });
+    }
 });

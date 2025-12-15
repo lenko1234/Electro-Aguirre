@@ -18,9 +18,7 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">
-                <span class="logo-electro">ELECTRO</span>
-                <span class="logo-aguirre">Aguirre</span>
-                <span class="logo-srl">S.R.L.</span>
+                <img src="assets/logo_exacto.svg" alt="Electro Aguirre" style="height: 40px;">
             </a>
             <button class="mobile-menu-btn" aria-label="Menu">
                 <i class="fas fa-bars"></i>
@@ -37,12 +35,12 @@
     <header id="inicio" class="hero">
         <div class="hero-overlay"></div>
         <div class="container hero-content">
-            <h1 class="fade-in-up">Iluminando tus <span class="text-highlight">Proyectos</span></h1>
+            <h1 class="fade-in-up">ELECTRO Aguirre <span class="text-highlight">S.R.L.</span></h1>
             <p class="fade-in-up delay-1">La mejor calidad en materiales eléctricos e iluminación para tu hogar,
                 comercio e industria.</p>
             <div class="hero-buttons fade-in-up delay-2">
                 <a href="#contacto" class="btn btn-primary">Solicitar Presupuesto</a>
-                <a href="#productos" class="btn btn-outline">Ver Productos</a>
+                <a href="catalogo.html" class="btn btn-outline">Ver Productos</a>
             </div>
         </div>
     </header>
@@ -81,43 +79,9 @@
                 <h2>Nuestros Productos</h2>
                 <p>Soluciones integrales para cada necesidad</p>
             </div>
-            <div class="products-grid">
-                <article class="product-card">
-                    <div class="card-image">
-                        <img src="assets/Gemini_Generated_Image_8r72xz8r72xz8r72.png" alt="Iluminación Hogar">
-                    </div>
-                    <div class="card-content">
-                        <h3>Iluminación Hogar</h3>
-                        <p>Lámparas, apliques y colgantes de diseño.</p>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="card-image">
-                        <img src="assets/iluminacion_industrial.png" alt="Iluminación Industrial">
-                    </div>
-                    <div class="card-content">
-                        <h3>Iluminación Industrial</h3>
-                        <p>Reflectores, campanas y equipos estancos.</p>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="card-image">
-                        <img src="assets/materiales_instalacion.png" alt="Materiales de Instalación">
-                    </div>
-                    <div class="card-content">
-                        <h3>Materiales de Instalación</h3>
-                        <p>Cables, tomas, interruptores y tableros.</p>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="card-image">
-                        <img src="assets/herramientas.png" alt="Herramientas">
-                    </div>
-                    <div class="card-content">
-                        <h3>Herramientas</h3>
-                        <p>Instrumentos de medición y herramientas profesionales.</p>
-                    </div>
-                </article>
+            <div class="products-grid" id="home-products-grid">
+                <!-- Los productos se cargarán dinámicamente desde Sanity -->
+                <p style="grid-column: 1/-1; text-align: center;">Cargando productos...</p>
             </div>
             <div class="text-center" style="margin-top: 40px;">
                 <a href="catalogo.html" class="btn btn-primary">Ver Catálogo Completo <i
