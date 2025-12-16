@@ -603,6 +603,227 @@ ul {
 }
 
 
+/* Pilares Section Redesign */
+.bg-light-alt {
+    background-color: #f9f9f9;
+}
+
+.pilares-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* Columna Texto */
+.pilares-info {
+    text-align: left;
+}
+
+.pilares-info .badge {
+    display: inline-block;
+    background-color: rgba(227, 30, 36, 0.1);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.pilares-info h2 {
+    font-size: 2.3rem;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    line-height: 1.3;
+}
+
+.pilares-description {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+.pilares-benefits {
+    margin-bottom: 35px;
+}
+
+.pilares-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+.check-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* Galería de Imágenes (Collage) */
+.pilares-gallery {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    /* Extra padding for floated elements if needed */
+}
+
+.gallery-main {
+    border-radius: 20px;
+    overflow: hidden;
+    height: 400px;
+    box-shadow: var(--shadow);
+}
+
+.gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-main:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gallery-item {
+    border-radius: 20px;
+    overflow: hidden;
+    height: 190px;
+    box-shadow: var(--shadow);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Badge flotante de experiencia/garantía */
+.experience-badge {
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    background-color: var(--white);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 5px solid var(--primary-color);
+    animation: float 3s ease-in-out infinite;
+}
+
+.exp-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.exp-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Responsive Pilares */
+@media (max-width: 968px) {
+    .pilares-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .pilares-info {
+        text-align: center;
+        order: 1;
+        /* Texto primero en móvil */
+    }
+
+    .pilares-benefits li {
+        justify-content: center;
+    }
+
+    .pilares-gallery {
+        order: 2;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .experience-badge {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -30px;
+        animation: none;
+        /* Disable float on mobile to avoid layout shifts if crowded */
+    }
+}
+
+@media (max-width: 576px) {
+    .pilares-info h2 {
+        font-size: 2rem;
+    }
+
+    .pilares-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-main {
+        height: 250px;
+    }
+
+    .gallery-secondary {
+        flex-direction: row;
+    }
+
+    .gallery-item {
+        height: 150px;
+    }
+}
+
+
 /* WhatsApp Float Button */
 .whatsapp-float {
     position: fixed;
