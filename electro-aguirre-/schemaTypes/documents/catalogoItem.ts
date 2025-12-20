@@ -36,6 +36,7 @@ export const catalogoItemType = defineType({
                 list: [
                     { title: 'Iluminación Hogar', value: 'Iluminación Hogar' },
                     { title: 'Iluminación Industrial', value: 'Iluminación Industrial' },
+                    { title: 'Iluminación Exterior', value: 'Iluminación Exterior' },
                     { title: 'Materiales Eléctricos', value: 'Materiales Eléctricos' },
                     { title: 'Materiales para instalaciones', value: 'Materiales para instalaciones' },
                     { title: 'Herramientas', value: 'Herramientas' },
@@ -47,6 +48,27 @@ export const catalogoItemType = defineType({
                     { title: 'Sistemas modulares', value: 'Sistemas modulares' },
                 ],
             },
+            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'subcategory',
+            title: 'Subcategoría',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'JELUZ', value: 'JELUZ' },
+                    { title: 'KALOP', value: 'KALOP' },
+                    { title: 'CAMBRE', value: 'CAMBRE' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.category !== 'Sistemas modulares',
+            validation: (Rule) => Rule.custom((subcategory, context) => {
+                const category = (context.parent as any)?.category;
+                if (category === 'Sistemas modulares' && !subcategory) {
+                    return 'La subcategoría es requerida para Sistemas modulares';
+                }
+                return true;
+            }),
         }),
     ],
 })

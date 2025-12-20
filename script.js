@@ -116,11 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategory, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
 
         let allProducts = []; // Store all products globally
         let currentFilter = null; // Track current filter
+        let currentSubcategoryFilter = null; // Track current subcategory filter
 
         // Function to render products
         function renderProducts(products) {
@@ -135,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const article = document.createElement('article');
                 article.className = 'product-card';
                 article.dataset.category = product.category || '';
+                article.dataset.subcategory = product.subcategory || '';
 
                 const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
 
@@ -165,15 +167,22 @@ document.addEventListener('DOMContentLoaded', () => {
             setupWhatsappButtons();
         }
 
-        // Function to filter products by category
-        function filterByCategory(category) {
+        // Function to filter products by category and subcategory
+        function filterByCategory(category, subcategory = null) {
             currentFilter = category;
+            currentSubcategoryFilter = subcategory;
 
             if (!category || category.includes('Todos')) {
                 // Show all products
                 renderProducts(allProducts);
+            } else if (subcategory) {
+                // Filter by both category and subcategory
+                const filtered = allProducts.filter(p =>
+                    p.category === category && p.subcategory === subcategory
+                );
+                renderProducts(filtered);
             } else {
-                // Filter products by category
+                // Filter products by category only
                 const filtered = allProducts.filter(p => p.category === category);
                 renderProducts(filtered);
             }
@@ -185,11 +194,49 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const activeLink = Array.from(document.querySelectorAll('.filter-list a'))
-                .find(link => link.textContent.trim().startsWith(category || 'Todos'));
+                .find(link => {
+                    if (subcategory) {
+                        return link.getAttribute('data-subcategory') === subcategory;
+                    }
+                    return link.textContent.trim().startsWith(category || 'Todos');
+                });
 
             if (activeLink) {
                 activeLink.style.color = 'var(--primary-color)';
                 activeLink.style.fontWeight = '600';
+            }
+        }
+
+        // Function to toggle subcategories
+        function setupSubcategoryToggle() {
+            const sistemasModularesLink = document.querySelector('a[data-category="Sistemas modulares"]:not([data-subcategory])');
+            if (sistemasModularesLink) {
+                const parentLi = sistemasModularesLink.closest('li');
+                const subcategoryList = parentLi.querySelector('.subcategory-list');
+
+                if (subcategoryList) {
+                    // Toggle subcategories on click
+                    sistemasModularesLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const isVisible = subcategoryList.style.display === 'block';
+                        subcategoryList.style.display = isVisible ? 'none' : 'block';
+
+                        // Rotate the chevron icon
+                        const chevron = sistemasModularesLink.querySelector('i');
+                        if (chevron) {
+                            chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
+                            chevron.style.transition = 'transform 0.3s ease';
+                        }
+
+                        // If closing, filter by main category
+                        if (isVisible) {
+                            filterByCategory('Sistemas modulares');
+                        } else {
+                            // If opening, also filter by main category
+                            filterByCategory('Sistemas modulares');
+                        }
+                    });
+                }
             }
         }
 
@@ -207,12 +254,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Render all products initially
                 renderProducts(allProducts);
 
+                // Setup subcategory toggle
+                setupSubcategoryToggle();
+
                 // Setup filter click handlers
                 document.querySelectorAll('.filter-list a').forEach(link => {
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
-                        const categoryText = link.textContent.trim().replace(/\s*›\s*$/, '').trim();
-                        filterByCategory(categoryText);
+                        const category = link.getAttribute('data-category');
+                        const subcategory = link.getAttribute('data-subcategory');
+
+                        if (category && subcategory) {
+                            // Subcategory click
+                            filterByCategory(category, subcategory);
+                        } else if (category) {
+                            // Main category click (Sistemas modulares)
+                            // Already handled by setupSubcategoryToggle
+                        } else {
+                            // Other categories
+                            const categoryText = link.textContent.trim().replace(/\s*›\s*$/, '').trim();
+                            filterByCategory(categoryText);
+                        }
                     });
                 });
             })
