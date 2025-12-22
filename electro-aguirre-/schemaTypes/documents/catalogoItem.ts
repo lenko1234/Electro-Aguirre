@@ -39,6 +39,7 @@ export const catalogoItemType = defineType({
                     { title: 'Iluminación Exterior', value: 'Iluminación Exterior' },
                     { title: 'Materiales Eléctricos', value: 'Materiales Eléctricos' },
                     { title: 'Materiales para instalaciones', value: 'Materiales para instalaciones' },
+                    { title: 'Protecciones eléctricas', value: 'Protecciones eléctricas' },
                     { title: 'Herramientas', value: 'Herramientas' },
                     { title: 'Cables y Conductores', value: 'Cables y Conductores' },
                     { title: 'Ventiladores', value: 'Ventiladores' },
