@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategory, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategorySistemasModulares, subcategoryVentiladores, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
 
         let allProducts = []; // Store all products globally
@@ -132,11 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            products.forEach(product => {
+            // Sort products alphabetically by title (A-Z)
+            const sortedProducts = [...products].sort((a, b) => {
+                return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
+            });
+
+            sortedProducts.forEach(product => {
+                // Combine subcategories into one field
+                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || '';
+
                 const article = document.createElement('article');
                 article.className = 'product-card';
                 article.dataset.category = product.category || '';
-                article.dataset.subcategory = product.subcategory || '';
+                article.dataset.subcategory = subcategory;
 
                 const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
 
@@ -177,9 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderProducts(allProducts);
             } else if (subcategory) {
                 // Filter by both category and subcategory
-                const filtered = allProducts.filter(p =>
-                    p.category === category && p.subcategory === subcategory
-                );
+                const filtered = allProducts.filter(p => {
+                    const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || '';
+                    return p.category === category && productSubcategory === subcategory;
+                });
                 renderProducts(filtered);
             } else {
                 // Filter products by category only
@@ -209,35 +218,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Function to toggle subcategories
         function setupSubcategoryToggle() {
-            const sistemasModularesLink = document.querySelector('a[data-category="Sistemas modulares"]:not([data-subcategory])');
-            if (sistemasModularesLink) {
-                const parentLi = sistemasModularesLink.closest('li');
-                const subcategoryList = parentLi.querySelector('.subcategory-list');
+            // Handle both Sistemas modulares and Ventiladores
+            const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores'];
 
-                if (subcategoryList) {
-                    // Toggle subcategories on click
-                    sistemasModularesLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const isVisible = subcategoryList.style.display === 'block';
-                        subcategoryList.style.display = isVisible ? 'none' : 'block';
+            categoriesWithSubcategories.forEach(categoryName => {
+                const categoryLink = document.querySelector(`a[data-category="${categoryName}"]:not([data-subcategory])`);
+                if (categoryLink) {
+                    const parentLi = categoryLink.closest('li');
+                    const subcategoryList = parentLi.querySelector('.subcategory-list');
 
-                        // Rotate the chevron icon
-                        const chevron = sistemasModularesLink.querySelector('i');
-                        if (chevron) {
-                            chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
-                            chevron.style.transition = 'transform 0.3s ease';
-                        }
+                    if (subcategoryList) {
+                        // Toggle subcategories on click
+                        categoryLink.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const isVisible = subcategoryList.style.display === 'block';
+                            subcategoryList.style.display = isVisible ? 'none' : 'block';
 
-                        // If closing, filter by main category
-                        if (isVisible) {
-                            filterByCategory('Sistemas modulares');
-                        } else {
-                            // If opening, also filter by main category
-                            filterByCategory('Sistemas modulares');
-                        }
-                    });
+                            // Rotate the chevron icon
+                            const chevron = categoryLink.querySelector('i');
+                            if (chevron) {
+                                chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
+                                chevron.style.transition = 'transform 0.3s ease';
+                            }
+
+                            // Filter by main category
+                            filterByCategory(categoryName);
+                        });
+                    }
                 }
-            }
+            });
         }
 
         // Fetch products from Sanity

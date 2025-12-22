@@ -41,18 +41,18 @@ export const catalogoItemType = defineType({
                     { title: 'Materiales para instalaciones', value: 'Materiales para instalaciones' },
                     { title: 'Herramientas', value: 'Herramientas' },
                     { title: 'Cables y Conductores', value: 'Cables y Conductores' },
-                    { title: 'Ventiladores de Techo', value: 'Ventiladores de Techo' },
-                    { title: 'Ventiladores de Pie', value: 'Ventiladores de Pie' },
+                    { title: 'Ventiladores', value: 'Ventiladores' },
                     { title: 'Artefactos Solares', value: 'Artefactos Solares' },
                     { title: 'Agua Caliente', value: 'Agua Caliente' },
                     { title: 'Sistemas modulares', value: 'Sistemas modulares' },
+                    { title: 'Línea inteligente. Smart WiFi', value: 'Línea inteligente. Smart WiFi' },
                 ],
             },
             validation: (Rule) => Rule.required(),
         }),
         defineField({
-            name: 'subcategory',
-            title: 'Subcategoría',
+            name: 'subcategorySistemasModulares',
+            title: 'Marca (Sistemas modulares)',
             type: 'string',
             options: {
                 list: [
@@ -65,10 +65,38 @@ export const catalogoItemType = defineType({
             validation: (Rule) => Rule.custom((subcategory, context) => {
                 const category = (context.parent as any)?.category;
                 if (category === 'Sistemas modulares' && !subcategory) {
-                    return 'La subcategoría es requerida para Sistemas modulares';
+                    return 'La marca es requerida para Sistemas modulares';
                 }
                 return true;
             }),
+        }),
+        defineField({
+            name: 'subcategoryVentiladores',
+            title: 'Tipo (Ventiladores)',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Techo', value: 'Techo' },
+                    { title: 'Pared', value: 'Pared' },
+                    { title: 'Pie', value: 'Pie' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.category !== 'Ventiladores',
+            validation: (Rule) => Rule.custom((subcategory, context) => {
+                const category = (context.parent as any)?.category;
+                if (category === 'Ventiladores' && !subcategory) {
+                    return 'El tipo es requerido para Ventiladores';
+                }
+                return true;
+            }),
+        }),
+        // Virtual field for compatibility - combines both subcategories
+        defineField({
+            name: 'subcategory',
+            title: 'Subcategoría (auto)',
+            type: 'string',
+            readOnly: true,
+            hidden: true,
         }),
     ],
 })
