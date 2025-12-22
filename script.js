@@ -132,8 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Sort products alphabetically by title (A-Z)
+            // Sort products intelligently - numbers first (numerically), then alphabetically
             const sortedProducts = [...products].sort((a, b) => {
+                // Extract leading numbers from titles (e.g., "JELUZ. 20092" -> 20092)
+                const getLeadingNumber = (title) => {
+                    const match = title.match(/(\d+(?:[.,/]\d+)?)/);
+                    return match ? parseFloat(match[1].replace(',', '.').replace('/', '.')) : null;
+                };
+
+                const numA = getLeadingNumber(a.title);
+                const numB = getLeadingNumber(b.title);
+
+                // Both have numbers - sort numerically
+                if (numA !== null && numB !== null) {
+                    return numA - numB;
+                }
+
+                // Only A has a number - A comes first
+                if (numA !== null) return -1;
+
+                // Only B has a number - B comes first
+                if (numB !== null) return 1;
+
+                // Neither has numbers - sort alphabetically
                 return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
             });
 
