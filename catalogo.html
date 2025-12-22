@@ -232,6 +232,18 @@
             </aside>
 
             <main>
+                <!-- Search Bar -->
+                <div class="search-container" style="margin-bottom: 30px;">
+                    <div style="position: relative; max-width: 500px;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999;"></i>
+                        <input type="text" id="search-input" placeholder="Buscar productos por nombre o código..."
+                            style="width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;"
+                            onfocus="this.style.borderColor='var(--primary-color)'"
+                            onblur="this.style.borderColor='#eee'" />
+                    </div>
+                </div>
+
                 <div class="products-grid" id="products-grid">
                     <!-- Los productos se cargarán dinámicamente desde Sanity -->
                     <p style="grid-column: 1/-1; text-align: center;">Cargando productos...</p>

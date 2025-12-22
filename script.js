@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let allProducts = []; // Store all products globally
         let currentFilter = null; // Track current filter
         let currentSubcategoryFilter = null; // Track current subcategory filter
+        let currentSearchTerm = ''; // Track current search term
 
         // Function to render products
         function renderProducts(products) {
@@ -201,21 +202,33 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFilter = category;
             currentSubcategoryFilter = subcategory;
 
-            if (!category || category.includes('Todos')) {
-                // Show all products
-                renderProducts(allProducts);
-            } else if (subcategory) {
-                // Filter by both category and subcategory
-                const filtered = allProducts.filter(p => {
-                    const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || '';
-                    return p.category === category && productSubcategory === subcategory;
-                });
-                renderProducts(filtered);
-            } else {
-                // Filter products by category only
-                const filtered = allProducts.filter(p => p.category === category);
-                renderProducts(filtered);
+            let filtered = allProducts;
+
+            // Apply category filter
+            if (category && !category.includes('Todos')) {
+                if (subcategory) {
+                    // Filter by both category and subcategory
+                    filtered = filtered.filter(p => {
+                        const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || '';
+                        return p.category === category && productSubcategory === subcategory;
+                    });
+                } else {
+                    // Filter products by category only
+                    filtered = filtered.filter(p => p.category === category);
+                }
             }
+
+            // Apply search filter
+            if (currentSearchTerm) {
+                filtered = filtered.filter(p => {
+                    const searchLower = currentSearchTerm.toLowerCase();
+                    const titleMatch = p.title.toLowerCase().includes(searchLower);
+                    const descMatch = (p.description || '').toLowerCase().includes(searchLower);
+                    return titleMatch || descMatch;
+                });
+            }
+
+            renderProducts(filtered);
 
             // Update active state on filter links
             document.querySelectorAll('.filter-list a').forEach(link => {
@@ -307,6 +320,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 });
+
+                // Setup search input handler
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        currentSearchTerm = e.target.value.trim();
+                        // Re-apply current filters with search
+                        filterByCategory(currentFilter, currentSubcategoryFilter);
+                    });
+                }
             })
             .catch(err => {
                 console.error('Error fetching Sanity products:', err);
