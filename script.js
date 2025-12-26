@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategorySistemasModulares, subcategoryVentiladores, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
 
         let allProducts = []; // Store all products globally
@@ -135,14 +135,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sort products intelligently - numbers first (numerically), then alphabetically
             const sortedProducts = [...products].sort((a, b) => {
-                // Extract leading numbers from titles (e.g., "JELUZ. 20092" -> 20092)
-                const getLeadingNumber = (title) => {
-                    const match = title.match(/(\d+(?:[.,/]\d+)?)/);
-                    return match ? parseFloat(match[1].replace(',', '.').replace('/', '.')) : null;
+                // Extract numbers from titles with priority for amperage ratings
+                const getNumber = (title) => {
+                    // First, try to match amperage pattern (e.g., "1x50A" -> 50)
+                    const amperageMatch = title.match(/\d+x(\d+)A/i);
+                    if (amperageMatch) {
+                        return parseFloat(amperageMatch[1]);
+                    }
+
+                    // Then try to match general numbers (e.g., "JELUZ. 20092" -> 20092)
+                    const numberMatch = title.match(/(\d+(?:[.,/]\d+)?)/);
+                    if (numberMatch) {
+                        return parseFloat(numberMatch[1].replace(',', '.').replace('/', '.'));
+                    }
+
+                    return null;
                 };
 
-                const numA = getLeadingNumber(a.title);
-                const numB = getLeadingNumber(b.title);
+                const numA = getNumber(a.title);
+                const numB = getNumber(b.title);
 
                 // Both have numbers - sort numerically
                 if (numA !== null && numB !== null) {
@@ -161,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sortedProducts.forEach(product => {
                 // Combine subcategories into one field
-                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || '';
+                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || product.subcategoryIluminacionExterior || '';
 
                 const article = document.createElement('article');
                 article.className = 'product-card';
@@ -209,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (subcategory) {
                     // Filter by both category and subcategory
                     filtered = filtered.filter(p => {
-                        const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || '';
+                        const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || p.subcategoryIluminacionExterior || '';
                         return p.category === category && productSubcategory === subcategory;
                     });
                 } else {
@@ -252,8 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Function to toggle subcategories
         function setupSubcategoryToggle() {
-            // Handle both Sistemas modulares and Ventiladores
-            const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores'];
+            // Handle categories with subcategories
+            const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores', 'Iluminación Exterior'];
 
             categoriesWithSubcategories.forEach(categoryName => {
                 const categoryLink = document.querySelector(`a[data-category="${categoryName}"]:not([data-subcategory])`);

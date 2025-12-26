@@ -40,6 +40,7 @@ export const catalogoItemType = defineType({
                     { title: 'Materiales Eléctricos', value: 'Materiales Eléctricos' },
                     { title: 'Materiales para instalaciones', value: 'Materiales para instalaciones' },
                     { title: 'Protecciones eléctricas', value: 'Protecciones eléctricas' },
+                    { title: 'Porteros eléctricos', value: 'Porteros eléctricos' },
                     { title: 'Herramientas', value: 'Herramientas' },
                     { title: 'Cables y Conductores', value: 'Cables y Conductores' },
                     { title: 'Ventiladores', value: 'Ventiladores' },
@@ -87,6 +88,27 @@ export const catalogoItemType = defineType({
                 const category = (context.parent as any)?.category;
                 if (category === 'Ventiladores' && !subcategory) {
                     return 'El tipo es requerido para Ventiladores';
+                }
+                return true;
+            }),
+        }),
+        defineField({
+            name: 'subcategoryIluminacionExterior',
+            title: 'Tipo (Iluminación Exterior)',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Proyectores LED', value: 'Proyectores LED' },
+                    { title: 'Alumbrado público', value: 'Alumbrado público' },
+                    { title: 'Tortugas', value: 'Tortugas' },
+                    { title: 'Guirnalda', value: 'Guirnalda' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.category !== 'Iluminación Exterior',
+            validation: (Rule) => Rule.custom((subcategory, context) => {
+                const category = (context.parent as any)?.category;
+                if (category === 'Iluminación Exterior' && !subcategory) {
+                    return 'El tipo es requerido para Iluminación Exterior';
                 }
                 return true;
             }),
