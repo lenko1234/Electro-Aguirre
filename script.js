@@ -19,6 +19,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Load Announcements from Sanity
+    const tickerContent = document.querySelector('.ticker-content');
+    if (tickerContent) {
+        const PROJECT_ID = 'gbe69kxi';
+        const DATASET = 'production';
+        const QUERY = encodeURIComponent('*[_type == "announcement" && isActive == true] | order(order asc) {text, icon}');
+        const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
+
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(({ result }) => {
+                if (result && result.length > 0) {
+                    // Build announcement text
+                    const announcementText = result.map(announcement => {
+                        const icon = announcement.icon || '📢';
+                        return `${icon} ${announcement.text}`;
+                    }).join(' • ') + ' •';
+
+                    // Update ticker content (duplicate for seamless loop)
+                    tickerContent.innerHTML = `
+                        <span>${announcementText}</span>
+                        <span>${announcementText}</span>
+                    `;
+                }
+            })
+            .catch(err => {
+                console.error('Error loading announcements:', err);
+                // Keep default content if fetch fails
+            });
+    }
+
     // Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -392,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     article.style.transition = 'all 0.6s ease-out';
 
                     homeProductsGrid.appendChild(article);
+
 
                     // Observe for animation
                     observer.observe(article);

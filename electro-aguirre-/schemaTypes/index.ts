@@ -99,8 +99,9 @@ import { productType } from './documents/product'
 import { productVariantType } from './documents/productVariant'
 
 import { catalogoItemType } from './documents/catalogoItem'
+import { announcementType } from './documents/announcement'
 
-const documents = [catalogoItemType, collectionType, colorThemeType, pageType, productType, productVariantType]
+const documents = [announcementType, catalogoItemType, collectionType, colorThemeType, pageType, productType, productVariantType]
 
 import { homeType } from './singletons/homeType'
 import { settingsType } from './singletons/settingsType'

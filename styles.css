@@ -133,6 +133,45 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+}
+
+/* Announcements Ticker */
+.announcements-ticker {
+    flex: 1;
+    max-width: 700px;
+    margin: 0 20px;
+    overflow: hidden;
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.ticker-content {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll-left 25s linear infinite;
+    align-items: center;
+}
+
+.ticker-content span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+    padding-right: 50px;
+    display: inline-block;
+    line-height: 1;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .logo {
@@ -557,6 +596,23 @@ ul {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .announcements-ticker {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin: 10px 0 0 0;
+        font-size: 0.85rem;
+    }
+
+    .ticker-content span {
+        font-size: 0.85rem;
+    }
+
     .nav-links {
         display: none;
     }
