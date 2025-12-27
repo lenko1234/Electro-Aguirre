@@ -182,29 +182,6 @@ ul {
     gap: 5px;
 }
 
-.logo-electro {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 2px 5px;
-    border-radius: 2px;
-}
-
-.logo-aguirre {
-    color: var(--primary-color);
-    font-family: cursive;
-    /* Fallback */
-    font-family: 'Outfit', sans-serif;
-    /* Or a script font if loaded */
-    font-style: italic;
-}
-
-.logo-srl {
-    font-size: 0.8rem;
-    color: var(--secondary-color);
-    align-self: flex-end;
-    margin-bottom: 3px;
-}
-
 .nav-links {
     display: flex;
     gap: 30px;

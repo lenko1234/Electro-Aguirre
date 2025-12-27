@@ -24,8 +24,7 @@
     <meta property="og:title" content="Electro Aguirre S.R.L. - Materiales Eléctricos e Iluminación">
     <meta property="og:description"
         content="Venta de materiales eléctricos e iluminación en Concepción del Uruguay. Calidad y asesoramiento para tus proyectos.">
-    <meta property="og:image"
-        content="https://www.electroaguirre.com.ar/assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg">
+    <meta property="og:image" content="https://www.electroaguirre.com.ar/assets/logo_optimizado.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -33,13 +32,18 @@
     <meta property="twitter:title" content="Electro Aguirre S.R.L. - Materiales Eléctricos e Iluminación">
     <meta property="twitter:description"
         content="Venta de materiales eléctricos e iluminación en Concepción del Uruguay. Calidad y asesoramiento para tus proyectos.">
-    <meta property="twitter:image"
-        content="https://www.electroaguirre.com.ar/assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg">
+    <meta property="twitter:image" content="https://www.electroaguirre.com.ar/assets/logo_optimizado.jpg">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" as="style" href="styles.css">
+    <link rel="preload" as="script" href="script.js">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Optimized: Only load necessary font weights -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome: Consider replacing with custom icon set for better performance -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -75,8 +79,12 @@
         <div class="hero-overlay"></div>
         <div class="container hero-content">
             <div class="fade-in-up" style="text-align: center; margin-bottom: 20px;">
-                <img src="assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg" alt="Electro Aguirre S.R.L."
-                    style="max-width: 400px; width: 100%; height: auto;">
+                <!-- Optimized: 1.4MB → 147KB (WebP) / 396KB (JPEG) -->
+                <picture>
+                    <source srcset="assets/logo_optimizado.webp" type="image/webp">
+                    <img src="assets/logo_optimizado.jpg" alt="Electro Aguirre S.R.L."
+                        style="max-width: 400px; width: 100%; height: auto;" loading="eager" fetchpriority="high">
+                </picture>
             </div>
             <p class="fade-in-up delay-1">La mejor calidad en materiales eléctricos e iluminación para tu hogar,
                 comercio e industria.</p>
@@ -170,14 +178,14 @@
                 <!-- Columna de Imágenes (Collage) -->
                 <div class="pilares-gallery">
                     <div class="gallery-main">
-                        <img src="assets/pilares3.jpeg" alt="Pilar completo instalado">
+                        <img src="assets/pilares3_optimized.jpg" alt="Pilar completo instalado" loading="lazy">
                     </div>
                     <div class="gallery-secondary">
                         <div class="gallery-item">
-                            <img src="assets/pilares1.jpeg" alt="Instalación en proceso">
+                            <img src="assets/pilares1_optimized.jpg" alt="Instalación en proceso" loading="lazy">
                         </div>
                         <div class="gallery-item">
-                            <img src="assets/pilares2.jpeg" alt="Medidor certificado">
+                            <img src="assets/pilares2_optimized.jpg" alt="Medidor certificado" loading="lazy">
                         </div>
                     </div>
                     <!-- Elemento decorativo flotante -->
@@ -271,8 +279,11 @@
                 <!-- Columna 1: Logo y Tagline -->
                 <div class="footer-info">
                     <div class="logo footer-logo">
-                        <img src="assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg" alt="Electro Aguirre"
-                            style="max-width: 200px; height: auto;">
+                        <picture>
+                            <source srcset="assets/logo_optimizado.webp" type="image/webp">
+                            <img src="assets/logo_optimizado.jpg" alt="Electro Aguirre"
+                                style="max-width: 200px; height: auto;" loading="lazy">
+                        </picture>
                     </div>
                     <p>Donde nace la luz.</p>
                 </div>
@@ -326,7 +337,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>

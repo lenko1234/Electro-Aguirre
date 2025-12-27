@@ -22,20 +22,22 @@
     <meta property="og:url" content="https://www.electroaguirre.com.ar/catalogo.html">
     <meta property="og:title" content="Catálogo - Electro Aguirre S.R.L.">
     <meta property="og:description" content="Catálogo completo de materiales eléctricos e iluminación.">
-    <meta property="og:image"
-        content="https://www.electroaguirre.com.ar/assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg">
+    <meta property="og:image" content="https://www.electroaguirre.com.ar/assets/logo_optimizado.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.electroaguirre.com.ar/catalogo.html">
     <meta property="twitter:title" content="Catálogo - Electro Aguirre S.R.L.">
     <meta property="twitter:description" content="Catálogo completo de materiales eléctricos e iluminación.">
-    <meta property="twitter:image"
-        content="https://www.electroaguirre.com.ar/assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg">
+    <meta property="twitter:image" content="https://www.electroaguirre.com.ar/assets/logo_optimizado.jpg">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" as="style" href="styles.css">
+    <link rel="preload" as="script" href="script.js">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -326,8 +328,11 @@
                 <!-- Columna 1: Logo y Tagline -->
                 <div class="footer-info">
                     <div class="logo footer-logo">
-                        <img src="assets/WhatsApp Image 2025-12-03 at 10.11.05 AM (1).jpeg" alt="Electro Aguirre"
-                            style="max-width: 200px; height: auto;">
+                        <picture>
+                            <source srcset="assets/logo_optimizado.webp" type="image/webp">
+                            <img src="assets/logo_optimizado.jpg" alt="Electro Aguirre"
+                                style="max-width: 200px; height: auto;" loading="lazy">
+                        </picture>
                     </div>
                     <p>Donde nace la luz.</p>
                 </div>
@@ -381,7 +386,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>
