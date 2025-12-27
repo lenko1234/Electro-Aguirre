@@ -113,6 +113,27 @@ export const catalogoItemType = defineType({
                 return true;
             }),
         }),
+        defineField({
+            name: 'subcategoryProteccionesElectricas',
+            title: 'Marca (Protecciones eléctricas)',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Sica', value: 'Sica' },
+                    { title: 'Hager', value: 'Hager' },
+                    { title: 'Schneider', value: 'Schneider' },
+                    { title: 'LS', value: 'LS' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.category !== 'Protecciones eléctricas',
+            validation: (Rule) => Rule.custom((subcategory, context) => {
+                const category = (context.parent as any)?.category;
+                if (category === 'Protecciones eléctricas' && !subcategory) {
+                    return 'La marca es requerida para Protecciones eléctricas';
+                }
+                return true;
+            }),
+        }),
         // Virtual field for compatibility - combines both subcategories
         defineField({
             name: 'subcategory',
