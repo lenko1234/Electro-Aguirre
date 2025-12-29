@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
 
         let allProducts = []; // Store all products globally
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sortedProducts.forEach(product => {
                 // Combine subcategories into one field
-                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || product.subcategoryIluminacionExterior || product.subcategoryProteccionesElectricas || '';
+                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || product.subcategoryIluminacionExterior || product.subcategoryIluminacionHogar || product.subcategoryProteccionesElectricas || '';
 
                 const article = document.createElement('article');
                 article.className = 'product-card';
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (subcategory) {
                     // Filter by both category and subcategory
                     filtered = filtered.filter(p => {
-                        const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || p.subcategoryIluminacionExterior || p.subcategoryProteccionesElectricas || '';
+                        const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || p.subcategoryIluminacionExterior || p.subcategoryIluminacionHogar || p.subcategoryProteccionesElectricas || '';
                         return p.category === category && productSubcategory === subcategory;
                     });
                 } else {
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Function to toggle subcategories
         function setupSubcategoryToggle() {
             // Handle categories with subcategories
-            const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores', 'Iluminación Exterior', 'Protecciones eléctricas'];
+            const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores', 'Iluminación Exterior', 'Iluminación Hogar', 'Protecciones eléctricas'];
 
             categoriesWithSubcategories.forEach(categoryName => {
                 const categoryLink = document.querySelector(`a[data-category="${categoryName}"]:not([data-subcategory])`);

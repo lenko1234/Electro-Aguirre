@@ -114,6 +114,27 @@ export const catalogoItemType = defineType({
             }),
         }),
         defineField({
+            name: 'subcategoryIluminacionHogar',
+            title: 'Tipo (Iluminación Hogar)',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Lámparas led', value: 'Lámparas led' },
+                    { title: 'Apliques', value: 'Apliques' },
+                    { title: 'Empotrables', value: 'Empotrables' },
+                    { title: 'Colgantes', value: 'Colgantes' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.category !== 'Iluminación Hogar',
+            validation: (Rule) => Rule.custom((subcategory, context) => {
+                const category = (context.parent as any)?.category;
+                if (category === 'Iluminación Hogar' && !subcategory) {
+                    return 'El tipo es requerido para Iluminación Hogar';
+                }
+                return true;
+            }),
+        }),
+        defineField({
             name: 'subcategoryProteccionesElectricas',
             title: 'Marca (Protecciones eléctricas)',
             type: 'string',

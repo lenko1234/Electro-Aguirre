@@ -207,10 +207,7 @@
             <!-- Announcements Ticker -->
             <div class="announcements-ticker">
                 <div class="ticker-content">
-                    <span>⚡ ¡Nuevos productos en iluminación LED! • 🏷️ Ofertas especiales en materiales eléctricos • 🚚
-                        Entregas rápidas en Concepción del Uruguay •</span>
-                    <span>⚡ ¡Nuevos productos en iluminación LED! • 🏷️ Ofertas especiales en materiales eléctricos • 🚚
-                        Entregas rápidas en Concepción del Uruguay •</span>
+                    <!-- Content loaded from Sanity -->
                 </div>
             </div>
             <button class="mobile-menu-btn" aria-label="Menu">
@@ -240,7 +237,20 @@
                     <ul class="filter-list" id="categories-list">
                         <li><a href="#" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i
                                     class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Iluminación Hogar <i class="fas fa-chevron-right"></i></a></li>
+                        <li>
+                            <a href="#" data-category="Iluminación Hogar">Iluminación Hogar <i
+                                    class="fas fa-chevron-right"></i></a>
+                            <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
+                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Lámparas led">•
+                                        Lámparas led <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Apliques">• Apliques
+                                        <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Empotrables">•
+                                        Empotrables <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Colgantes">•
+                                        Colgantes <i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </li>
                         <li><a href="#">Iluminación Industrial <i class="fas fa-chevron-right"></i></a></li>
                         <li>
                             <a href="#" data-category="Iluminación Exterior">Iluminación Exterior <i
