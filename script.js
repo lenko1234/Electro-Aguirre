@@ -164,8 +164,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Sort products intelligently - numbers first (numerically), then alphabetically
+            // Sort products intelligently - group similar products together, then sort numerically
             const sortedProducts = [...products].sort((a, b) => {
+                // Define product groups by keywords (order matters - first match wins)
+                const productGroups = [
+                    { keywords: ['spotline'], priority: 1 },
+                    { keywords: ['spot'], priority: 2 },
+                    { keywords: ['panel'], priority: 3 },
+                    { keywords: ['plafón', 'plafon'], priority: 4 },
+                    { keywords: ['tira', 'cinta'], priority: 5 },
+                    { keywords: ['aplique'], priority: 6 },
+                    { keywords: ['colgante'], priority: 7 },
+                    { keywords: ['lámpara', 'lampara'], priority: 8 },
+                ];
+
+                // Get product group priority
+                const getGroupPriority = (title) => {
+                    const titleLower = title.toLowerCase();
+                    for (const group of productGroups) {
+                        if (group.keywords.some(keyword => titleLower.includes(keyword))) {
+                            return group.priority;
+                        }
+                    }
+                    return 999; // No group - goes to the end
+                };
+
                 // Extract numbers from titles with priority for amperage ratings
                 const getNumber = (title) => {
                     // First, try to match amperage pattern (e.g., "1x50A" -> 50)
@@ -183,6 +206,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     return null;
                 };
 
+                const groupA = getGroupPriority(a.title);
+                const groupB = getGroupPriority(b.title);
+
+                // Different groups - sort by group priority
+                if (groupA !== groupB) {
+                    return groupA - groupB;
+                }
+
+                // Same group - sort by numbers if available
                 const numA = getNumber(a.title);
                 const numB = getNumber(b.title);
 
