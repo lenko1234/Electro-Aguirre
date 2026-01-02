@@ -357,6 +357,30 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Define attachFilterHandlers within this scope
+        function attachFilterHandlers() {
+            // Re-setup subcategory toggle
+            setupSubcategoryToggle();
+
+            // Re-setup filter click handlers
+            document.querySelectorAll('.filter-list a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = link.getAttribute('data-category');
+                    const subcategory = link.getAttribute('data-subcategory');
+
+                    if (category && subcategory) {
+                        filterByCategory(category, subcategory);
+                    } else if (category) {
+                        // Main category click - setupSubcategoryToggle handles the click for these
+                    } else {
+                        const categoryText = link.textContent.trim().replace(/\s*›\s*$/, '').trim();
+                        filterByCategory(categoryText);
+                    }
+                });
+            });
+        }
+
         // Fetch products from Sanity
         fetch(API_URL)
             .then(res => res.json())
@@ -371,29 +395,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Render all products initially
                 renderProducts(allProducts);
 
-                // Setup subcategory toggle
-                setupSubcategoryToggle();
+                // Setup branch selector
+                const btnCasaCentral = document.getElementById('btn-casa-central');
+                const btnSucursalIluminacion = document.getElementById('btn-sucursal-iluminacion');
+                const categoriesList = document.getElementById('categories-list');
 
-                // Setup filter click handlers
-                document.querySelectorAll('.filter-list a').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const category = link.getAttribute('data-category');
-                        const subcategory = link.getAttribute('data-subcategory');
+                if (btnCasaCentral && btnSucursalIluminacion && categoriesList) {
+                    const casaCentralHTML = categoriesList.innerHTML;
+                    const sucursalIluminacionHTML = `
+                        <li><a href="#" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Iluminación Decorativa <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Lámparas de Diseño <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Sistemas de Riel <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Exterior Premium <i class="fas fa-chevron-right"></i></a></li>
+                        <li style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.03); border-radius: 10px; font-size: 0.85rem; color: #666; border: 1px dashed #ddd;">
+                            <i class="fas fa-info-circle" style="color: var(--primary-color); margin-bottom: 5px; display: block;"></i>
+                            Estamos preparando el catálogo exclusivo de nuestra Sucursal Iluminación. Muy pronto podrás ver todos los productos aquí.
+                        </li>
+                    `;
 
-                        if (category && subcategory) {
-                            // Subcategory click
-                            filterByCategory(category, subcategory);
-                        } else if (category) {
-                            // Main category click (Sistemas modulares)
-                            // Already handled by setupSubcategoryToggle
-                        } else {
-                            // Other categories
-                            const categoryText = link.textContent.trim().replace(/\s*›\s*$/, '').trim();
-                            filterByCategory(categoryText);
-                        }
+                    btnCasaCentral.addEventListener('click', () => {
+                        if (btnCasaCentral.classList.contains('active')) return;
+                        btnCasaCentral.classList.add('active');
+                        btnSucursalIluminacion.classList.remove('active');
+                        categoriesList.innerHTML = casaCentralHTML;
+                        attachFilterHandlers();
+                        renderProducts(allProducts);
                     });
-                });
+
+                    btnSucursalIluminacion.addEventListener('click', () => {
+                        if (btnSucursalIluminacion.classList.contains('active')) return;
+                        btnSucursalIluminacion.classList.add('active');
+                        btnCasaCentral.classList.remove('active');
+                        categoriesList.innerHTML = sucursalIluminacionHTML;
+                        attachFilterHandlers();
+
+                        // Show coming soon message in grid
+                        productsGrid.innerHTML = `
+                            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: #fff; border-radius: 15px; box-shadow: var(--shadow);">
+                                <i class="fas fa-lightbulb" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;"></i>
+                                <h2 style="margin-bottom: 10px;">Sucursal Iluminación</h2>
+                                <p style="color: var(--text-light); max-width: 500px; margin: 0 auto;">Estamos trabajando para traerte lo mejor en iluminación decorativa y técnica. Muy pronto podrás consultar el catálogo completo de nuestra nueva sucursal.</p>
+                            </div>
+                        `;
+                    });
+                }
+
+                // Initial attachment of handlers
+                attachFilterHandlers();
 
                 // Setup search input handler
                 const searchInput = document.getElementById('search-input');

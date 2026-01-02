@@ -143,6 +143,44 @@
             transform: rotate(180deg);
         }
 
+        /* Branch Selector Styles */
+        .branch-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .branch-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: 2px solid #eee;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .branch-btn:hover {
+            border-color: #ddd;
+            background-color: #fcfcfc;
+        }
+
+        .branch-btn.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(227, 30, 36, 0.05);
+            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.1);
+        }
+
         /* Subcategory styles */
         .subcategory-list {
             list-style: none;
@@ -238,7 +276,10 @@
         <div class="catalog-layout">
             <aside class="filters">
                 <div class="filter-group">
-                    <h4>Categorías</h4>
+                    <div class="branch-selector">
+                        <button class="branch-btn active" id="btn-casa-central">Casa Central</button>
+                        <button class="branch-btn" id="btn-sucursal-iluminacion">Sucursal Iluminación</button>
+                    </div>
                     <ul class="filter-list" id="categories-list">
                         <li><a href="#" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i
                                     class="fas fa-chevron-right"></i></a></li>
