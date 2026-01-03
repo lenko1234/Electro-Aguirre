@@ -105,6 +105,7 @@ export const catalogoItemType = defineType({
                     { title: 'Alumbrado público', value: 'Alumbrado público' },
                     { title: 'Tortugas', value: 'Tortugas' },
                     { title: 'Guirnalda', value: 'Guirnalda' },
+                    { title: 'Difusores', value: 'Difusores' },
                 ],
             },
             hidden: ({ parent }) => parent?.category !== 'Iluminación Exterior',
