@@ -168,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const sortedProducts = [...products].sort((a, b) => {
                 // Define product groups by keywords (order matters - first match wins)
                 const productGroups = [
+                    // Iluminación groups
                     { keywords: ['spotline'], priority: 1 },
                     { keywords: ['spot'], priority: 2 },
                     { keywords: ['panel'], priority: 3 },
@@ -176,6 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     { keywords: ['aplique'], priority: 6 },
                     { keywords: ['colgante'], priority: 7 },
                     { keywords: ['lámpara', 'lampara'], priority: 8 },
+
+                    // Línea aérea y morsetería groups
+                    { keywords: ['morseto'], priority: 10 },
+                    { keywords: ['pinza'], priority: 11 },
+                    { keywords: ['ménsula', 'mensula'], priority: 12 },
+                    { keywords: ['tilla'], priority: 13 },
+                    { keywords: ['morsa'], priority: 14 },
+                    { keywords: ['fusible'], priority: 15 },
+                    { keywords: ['derivador'], priority: 16 },
+                    { keywords: ['conjunto'], priority: 17 },
                 ];
 
                 // Get product group priority
@@ -189,12 +200,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     return 999; // No group - goes to the end
                 };
 
+                // Extract model code for LCT products (e.g., "PKD-14" from "LCT PKD-14 – Morseto...")
+                const getLCTModelCode = (title) => {
+                    const lctMatch = title.match(/LCT\s+([A-Z]+-[\dA-Z]+)/i);
+                    if (lctMatch) {
+                        return lctMatch[1];
+                    }
+                    return null;
+                };
+
                 // Extract numbers from titles with priority for amperage ratings
                 const getNumber = (title) => {
                     // First, try to match amperage pattern (e.g., "1x50A" -> 50)
                     const amperageMatch = title.match(/\d+x(\d+)A/i);
                     if (amperageMatch) {
                         return parseFloat(amperageMatch[1]);
+                    }
+
+                    // For LCT products, extract the number from the model code
+                    const modelCode = getLCTModelCode(title);
+                    if (modelCode) {
+                        const numberMatch = modelCode.match(/(\d+)/);
+                        if (numberMatch) {
+                            return parseFloat(numberMatch[1]);
+                        }
                     }
 
                     // Then try to match general numbers (e.g., "JELUZ. 20092" -> 20092)
