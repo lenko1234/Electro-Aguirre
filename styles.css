@@ -58,6 +58,8 @@ ul {
 
 .section-padding {
     padding: 80px 0;
+    scroll-margin-top: 90px;
+    /* Evita que el navbar tape el contenido al scrollear */
 }
 
 .text-highlight {
@@ -393,6 +395,8 @@ ul {
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 25px;
     padding: 10px 0;
+    min-height: 400px;
+    /* Reserva espacio para evitar saltos al cargar */
 }
 
 .product-card {

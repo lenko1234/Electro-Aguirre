@@ -540,15 +540,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 // RE-SCROLL TO HASH: Since Sanity content is dynamic and shifts the page height,
-                // we re-trigger the scroll to the hash (like #pilares) after the content is loaded.
+                // we re-trigger the scroll to the hash after the content is loaded.
                 if (window.location.hash) {
-                    const target = document.querySelector(window.location.hash);
-                    if (target) {
-                        // Small delay to ensure the browser has calculated the new height
-                        setTimeout(() => {
-                            target.scrollIntoView({ behavior: 'smooth' });
-                        }, 500);
-                    }
+                    const hash = window.location.hash;
+                    // Wait a bit more for images and layout to stabilize
+                    setTimeout(() => {
+                        const target = document.querySelector(hash);
+                        if (target) {
+                            const navbarHeight = 90;
+                            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 1000);
                 }
             })
             .catch(err => {
