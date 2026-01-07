@@ -965,3 +965,39 @@ ul {
     border-radius: 10px;
     margin-top: 15px;
 }
+
+/* Button Noxsites */
+.btn-noxsites {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 20px;
+    border: 1px solid var(--primary-color);
+    border-radius: 50px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    background: transparent;
+    margin-top: 15px;
+}
+
+.btn-noxsites:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-noxsites i {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .btn-noxsites {
+        padding: 5px 15px;
+        font-size: 0.65rem;
+    }
+}
