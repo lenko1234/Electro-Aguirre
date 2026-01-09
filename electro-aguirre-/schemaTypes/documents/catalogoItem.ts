@@ -44,6 +44,7 @@ export const catalogoItemType = defineType({
                     { title: 'Herramientas', value: 'Herramientas' },
                     { title: 'Cables y Conductores', value: 'Cables y Conductores' },
                     { title: 'Ventiladores', value: 'Ventiladores' },
+                    { title: 'Extractores', value: 'Extractores' },
                     { title: 'Artefactos Solares', value: 'Artefactos Solares' },
                     { title: 'Agua Caliente', value: 'Agua Caliente' },
                     { title: 'Sistemas modulares', value: 'Sistemas modulares' },

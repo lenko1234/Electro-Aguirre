@@ -657,6 +657,26 @@ ul {
     align-items: center;
 }
 
+.pilares-wrapper--reverse {
+    direction: ltr;
+    /* Ensure base direction is ltr */
+}
+
+.pilares-wrapper--reverse .pilares-info {
+    order: 2;
+}
+
+.pilares-wrapper--reverse .pilares-gallery {
+    order: 1;
+}
+
+.pilares-wrapper--reverse .experience-badge {
+    left: auto;
+    right: -20px;
+    border-left: none;
+    border-right: 5px solid var(--primary-color);
+}
+
 /* Columna Texto */
 .pilares-info {
     text-align: left;
@@ -820,7 +840,7 @@ ul {
 
     .pilares-info {
         text-align: center;
-        order: 1;
+        order: 1 !important;
         /* Texto primero en móvil */
     }
 
@@ -829,7 +849,7 @@ ul {
     }
 
     .pilares-gallery {
-        order: 2;
+        order: 2 !important;
         max-width: 600px;
         margin: 0 auto;
     }
