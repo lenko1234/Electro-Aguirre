@@ -393,16 +393,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Re-setup filter click handlers
             document.querySelectorAll('.filter-list a').forEach(link => {
+                // Skip if this link is already handled by setupSubcategoryToggle
+                const category = link.getAttribute('data-category');
+                const subcategory = link.getAttribute('data-subcategory');
+                const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores', 'Iluminación Exterior', 'Iluminación Hogar', 'Protecciones eléctricas'];
+
+                // If this is a main category link with subcategories, skip it (handled by setupSubcategoryToggle)
+                if (category && !subcategory && categoriesWithSubcategories.includes(category)) {
+                    return;
+                }
+
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const category = link.getAttribute('data-category');
-                    const subcategory = link.getAttribute('data-subcategory');
 
                     if (category && subcategory) {
+                        // Subcategory click
                         filterByCategory(category, subcategory);
                     } else if (category) {
-                        // Main category click - setupSubcategoryToggle handles the click for these
+                        // Main category click (without subcategories)
+                        filterByCategory(category);
                     } else {
+                        // "Todos los productos" or other text-based filters
                         const categoryText = link.textContent.trim().replace(/\s*›\s*$/, '').trim();
                         filterByCategory(categoryText);
                     }
