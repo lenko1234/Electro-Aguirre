@@ -128,6 +128,7 @@ export const catalogoItemType = defineType({
                     { title: 'Apliques', value: 'Apliques' },
                     { title: 'Empotrables', value: 'Empotrables' },
                     { title: 'Colgantes', value: 'Colgantes' },
+                    { title: 'Spots', value: 'Spots' },
                 ],
             },
             hidden: ({ parent }) => parent?.category !== 'Iluminación Hogar',

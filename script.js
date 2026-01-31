@@ -187,6 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     { keywords: ['fusible'], priority: 15 },
                     { keywords: ['derivador'], priority: 16 },
                     { keywords: ['conjunto'], priority: 17 },
+
+                    // Protecciones groups
+                    { keywords: ['guardamotor'], priority: 20 },
+                    { keywords: ['disyuntor', 'diferencial'], priority: 21 },
+                    { keywords: ['termomagnética', 'termomagnetica', 'térmica', 'termica', 'pilar'], priority: 22 },
                 ];
 
                 // Get product group priority
@@ -211,13 +216,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Extract numbers from titles with priority for amperage ratings
                 const getNumber = (title) => {
-                    // First, try to match amperage pattern (e.g., "1x50A" -> 50)
-                    const amperageMatch = title.match(/\d+x(\d+)A/i);
-                    if (amperageMatch) {
-                        return parseFloat(amperageMatch[1]);
+                    // 1. Try to match range pattern (e.g., "1 - 1,6A" or "1,6A - 2,5A")
+                    const rangeMatch = title.match(/(\d+(?:[.,]\d+)?)(?:\s*A)?\s*-\s*(\d+(?:[.,]\d+)?)\s*A/i);
+                    if (rangeMatch) {
+                        return parseFloat(rangeMatch[1].replace(',', '.'));
                     }
 
-                    // For LCT products, extract the number from the model code
+                    // 2. Try to match amperage pattern (e.g., "1x50A" -> 50, or "10A")
+                    // Prioritize numbers that are followed by "A" (Amperes)
+                    const ampPattern = /(\d+(?:[.,]\d+)?)\s*A/i;
+                    const ampMatch = title.match(ampPattern);
+                    if (ampMatch) {
+                        return parseFloat(ampMatch[1].replace(',', '.'));
+                    }
+
+                    const xAmpMatch = title.match(/\d+x(\d+)A/i);
+                    if (xAmpMatch) {
+                        return parseFloat(xAmpMatch[1].replace(',', '.'));
+                    }
+
+                    // 3. For LCT products, extract the number from the model code
                     const modelCode = getLCTModelCode(title);
                     if (modelCode) {
                         const numberMatch = modelCode.match(/(\d+)/);
@@ -226,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
 
-                    // Then try to match general numbers (e.g., "JELUZ. 20092" -> 20092)
+                    // 4. Then try to match general numbers (e.g., "JELUZ. 20092" -> 20092)
                     const numberMatch = title.match(/(\d+(?:[.,/]\d+)?)/);
                     if (numberMatch) {
                         return parseFloat(numberMatch[1].replace(',', '.').replace('/', '.'));
@@ -249,7 +267,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Both have numbers - sort numerically
                 if (numA !== null && numB !== null) {
-                    return numA - numB;
+                    if (numA !== numB) {
+                        return numA - numB;
+                    }
+                    // If numbers are same (e.g. 10A vs 10A), fall back to alphabetical
                 }
 
                 // Only A has a number - A comes first
