@@ -29,8 +29,22 @@ export const catalogoItemType = defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
+            name: 'branch',
+            title: 'Sucursal',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Casa Central', value: 'casaCentral' },
+                    { title: 'Sucursal Iluminación', value: 'sucursalIluminacion' },
+                ],
+                layout: 'radio'
+            },
+            initialValue: 'casaCentral',
+            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
             name: 'category',
-            title: 'Categoría',
+            title: 'Categoría (Casa Central)',
             type: 'string',
             options: {
                 list: [
@@ -57,7 +71,37 @@ export const catalogoItemType = defineType({
                     { title: 'Terminales y uniones', value: 'Terminales y uniones' },
                 ],
             },
-            validation: (Rule) => Rule.required(),
+            hidden: ({ parent }) => parent?.branch !== 'casaCentral',
+            validation: (Rule) => Rule.custom((value, context) => {
+                const branch = (context.parent as any)?.branch;
+                if (branch === 'casaCentral' && !value) {
+                    return 'La categoría es requerida para Casa Central';
+                }
+                return true;
+            }),
+        }),
+        defineField({
+            name: 'categorySucursal',
+            title: 'Categoría (Sucursal Iluminación)',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Colgantes', value: 'Colgantes' },
+                    { title: 'Veladores', value: 'Veladores' },
+                    { title: 'Lámparas de escritorio', value: 'Lámparas de escritorio' },
+                    { title: 'Lámparas de pie', value: 'Lámparas de pie' },
+                    { title: 'Spots', value: 'Spots' },
+                    { title: 'Pantallas', value: 'Pantallas' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.branch !== 'sucursalIluminacion',
+            validation: (Rule) => Rule.custom((value, context) => {
+                const branch = (context.parent as any)?.branch;
+                if (branch === 'sucursalIluminacion' && !value) {
+                    return 'La categoría es requerida para Sucursal Iluminación';
+                }
+                return true;
+            }),
         }),
         defineField({
             name: 'subcategorySistemasModulares',

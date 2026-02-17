@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, category, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, branch, category, categorySucursal, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
 
         let allProducts = []; // Store all products globally
@@ -289,8 +289,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const article = document.createElement('article');
                 article.className = 'product-card';
-                article.dataset.category = product.category || '';
+                article.dataset.category = product.category || product.categorySucursal || '';
                 article.dataset.subcategory = subcategory;
+                article.dataset.branch = product.branch || 'casaCentral';
 
                 const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
 
@@ -326,7 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFilter = category;
             currentSubcategoryFilter = subcategory;
 
-            let filtered = allProducts;
+            const activeBranch = document.getElementById('btn-casa-central').classList.contains('active') ? 'casaCentral' : 'sucursalIluminacion';
+            let filtered = allProducts.filter(p => (p.branch || 'casaCentral') === activeBranch);
 
             // Apply category filter
             if (category && !category.includes('Todos')) {
@@ -338,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 } else {
                     // Filter products by category only
-                    filtered = filtered.filter(p => p.category === category);
+                    filtered = filtered.filter(p => p.category === category || p.categorySucursal === category);
                 }
             }
 
@@ -365,7 +367,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (subcategory) {
                         return link.getAttribute('data-subcategory') === subcategory;
                     }
-                    return link.textContent.trim().startsWith(category || 'Todos');
+                    const dataCategory = link.getAttribute('data-category');
+                    return (dataCategory === category) || link.textContent.trim().startsWith(category || 'Todos');
                 });
 
             if (activeLink) {
@@ -453,8 +456,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Render all products initially
-                renderProducts(allProducts);
+                // Render products for the active branch initially
+                filterByCategory(null);
 
                 // Setup branch selector
                 const btnCasaCentral = document.getElementById('btn-casa-central');
@@ -464,15 +467,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (btnCasaCentral && btnSucursalIluminacion && categoriesList) {
                     const casaCentralHTML = categoriesList.innerHTML;
                     const sucursalIluminacionHTML = `
-                        <li><a href="#" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Iluminación Decorativa <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Lámparas de Diseño <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Sistemas de Riel <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Exterior Premium <i class="fas fa-chevron-right"></i></a></li>
-                        <li style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.03); border-radius: 10px; font-size: 0.85rem; color: #666; border: 1px dashed #ddd;">
-                            <i class="fas fa-info-circle" style="color: var(--primary-color); margin-bottom: 5px; display: block;"></i>
-                            Estamos preparando el catálogo exclusivo de nuestra Sucursal Iluminación. Muy pronto podrás ver todos los productos aquí.
-                        </li>
+                        <li><a href="#" data-category="" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Colgantes">Colgantes <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Veladores">Veladores <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Lámparas de escritorio">Lámparas de escritorio <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Lámparas de pie">Lámparas de pie <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Spots">Spots <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Pantallas">Pantallas <i class="fas fa-chevron-right"></i></a></li>
                     `;
 
                     btnCasaCentral.addEventListener('click', () => {
@@ -481,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         btnSucursalIluminacion.classList.remove('active');
                         categoriesList.innerHTML = casaCentralHTML;
                         attachFilterHandlers();
-                        renderProducts(allProducts);
+                        filterByCategory(null); // Shows all for current branch
                     });
 
                     btnSucursalIluminacion.addEventListener('click', () => {
@@ -490,15 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         btnCasaCentral.classList.remove('active');
                         categoriesList.innerHTML = sucursalIluminacionHTML;
                         attachFilterHandlers();
-
-                        // Show coming soon message in grid
-                        productsGrid.innerHTML = `
-                            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: #fff; border-radius: 15px; box-shadow: var(--shadow);">
-                                <i class="fas fa-lightbulb" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;"></i>
-                                <h2 style="margin-bottom: 10px;">Sucursal Iluminación</h2>
-                                <p style="color: var(--text-light); max-width: 500px; margin: 0 auto;">Estamos trabajando para traerte lo mejor en iluminación decorativa y técnica. Muy pronto podrás consultar el catálogo completo de nuestra nueva sucursal.</p>
-                            </div>
-                        `;
+                        filterByCategory(null); // Shows all for current branch
                     });
                 }
 
