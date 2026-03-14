@@ -165,45 +165,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Sort products intelligently - group similar products together, then sort numerically
+            const productGroups = [
+                { keywords: ['panel'] },
+                { keywords: ['plafón', 'plafon'] },
+                { keywords: ['tira', 'cinta'] },
+                { keywords: ['aplique'] },
+                { keywords: ['colgante'] },
+                { keywords: ['lámpara', 'lampara'] },
+                { keywords: ['morseto'] },
+                { keywords: ['pinza'] },
+                { keywords: ['ménsula', 'mensula'] },
+                { keywords: ['tilla'] },
+                { keywords: ['morsa'] },
+                { keywords: ['fusible'] },
+                { keywords: ['derivador'] },
+                { keywords: ['conjunto'] },
+                { keywords: ['guardamotor'] },
+                { keywords: ['disyuntor', 'diferencial'] },
+                { keywords: ['termomagnética', 'termomagnetica', 'térmica', 'termica', 'pilar'] },
+                { keywords: ['spotline'] },
+                { keywords: ['spot'] },
+            ];
+
+            // Shuffle groups order on each page load (Fisher-Yates)
+            for (let i = productGroups.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [productGroups[i], productGroups[j]] = [productGroups[j], productGroups[i]];
+            }
+
+            const getGroupPriority = (title) => {
+                const titleLower = title.toLowerCase();
+                const index = productGroups.findIndex(group =>
+                    group.keywords.some(keyword => titleLower.includes(keyword))
+                );
+                return index === -1 ? 999 : index;
+            };
+
             const sortedProducts = [...products].sort((a, b) => {
-                // Define product groups by keywords (order matters - first match wins)
-                const productGroups = [
-                    // Iluminación groups
-                    { keywords: ['spotline'], priority: 1 },
-                    { keywords: ['spot'], priority: 2 },
-                    { keywords: ['panel'], priority: 3 },
-                    { keywords: ['plafón', 'plafon'], priority: 4 },
-                    { keywords: ['tira', 'cinta'], priority: 5 },
-                    { keywords: ['aplique'], priority: 6 },
-                    { keywords: ['colgante'], priority: 7 },
-                    { keywords: ['lámpara', 'lampara'], priority: 8 },
-
-                    // Línea aérea y morsetería groups
-                    { keywords: ['morseto'], priority: 10 },
-                    { keywords: ['pinza'], priority: 11 },
-                    { keywords: ['ménsula', 'mensula'], priority: 12 },
-                    { keywords: ['tilla'], priority: 13 },
-                    { keywords: ['morsa'], priority: 14 },
-                    { keywords: ['fusible'], priority: 15 },
-                    { keywords: ['derivador'], priority: 16 },
-                    { keywords: ['conjunto'], priority: 17 },
-
-                    // Protecciones groups
-                    { keywords: ['guardamotor'], priority: 20 },
-                    { keywords: ['disyuntor', 'diferencial'], priority: 21 },
-                    { keywords: ['termomagnética', 'termomagnetica', 'térmica', 'termica', 'pilar'], priority: 22 },
-                ];
-
-                // Get product group priority
-                const getGroupPriority = (title) => {
-                    const titleLower = title.toLowerCase();
-                    for (const group of productGroups) {
-                        if (group.keywords.some(keyword => titleLower.includes(keyword))) {
-                            return group.priority;
-                        }
-                    }
-                    return 999; // No group - goes to the end
-                };
 
                 // Extract model code for LCT products (e.g., "PKD-14" from "LCT PKD-14 – Morseto...")
                 const getLCTModelCode = (title) => {
