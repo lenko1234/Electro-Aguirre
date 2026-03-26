@@ -204,6 +204,40 @@
             padding-left: 10px;
         }
 
+        /* Category list (categories inside supercategories) */
+        .category-list {
+            list-style: none;
+            padding-left: 0;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .category-list li {
+            margin-bottom: 5px;
+        }
+
+        .category-list a {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            transition: all 0.2s ease;
+        }
+
+        .category-list a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Supercategory styles */
+        .supercategory-item > a {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .supercategory-item > a:hover {
+            color: var(--primary-color);
+        }
+
         .category-with-subcategories>a {
             cursor: pointer;
         }
@@ -285,113 +319,129 @@
                     <ul class="filter-list" id="categories-list">
                         <li><a href="#" data-category="" style="color: var(--primary-color); font-weight: 600;">Todos
                                 los Productos <i class="fas fa-chevron-right"></i></a></li>
-                        <li>
-                            <a href="#" data-category="Iluminación Hogar">Iluminación Hogar <i
-                                    class="fas fa-chevron-right"></i></a>
-                            <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
-                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Lámparas led">•
-                                        Lámparas led <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Apliques">• Apliques
-                                        <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Empotrables">•
-                                        Empotrables <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Colgantes">•
-                                        Colgantes <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Spots">• Spots
-                                        <i class="fas fa-chevron-right"></i></a></li>
+
+                        <!-- Supercategoría: Iluminación -->
+                        <li class="supercategory-item">
+                            <a href="#" data-supercategory="Iluminación">Iluminación <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li>
+                                    <a href="#" data-category="Iluminación Hogar">Iluminación Hogar <i class="fas fa-chevron-right"></i></a>
+                                    <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
+                                        <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Lámparas led">• Lámparas led <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Apliques">• Apliques <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Empotrables">• Empotrables <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Colgantes">• Colgantes <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Hogar" data-subcategory="Spots">• Spots <i class="fas fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" data-category="Iluminación Industrial">Iluminación Industrial <i class="fas fa-chevron-right"></i></a></li>
+                                <li>
+                                    <a href="#" data-category="Iluminación Exterior">Iluminación Exterior <i class="fas fa-chevron-right"></i></a>
+                                    <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
+                                        <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Proyectores LED">• Proyectores LED <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Alumbrado público">• Alumbrado público <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Tortugas">• Tortugas <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Guirnalda">• Guirnalda <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Difusores">• Difusores <i class="fas fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li><a href="#" data-category="Iluminación Industrial">Iluminación Industrial <i
-                                    class="fas fa-chevron-right"></i></a></li>
-                        <li>
-                            <a href="#" data-category="Iluminación Exterior">Iluminación Exterior <i
-                                    class="fas fa-chevron-right"></i></a>
-                            <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
-                                <li><a href="#" data-category="Iluminación Exterior"
-                                        data-subcategory="Proyectores LED">• Proyectores LED <i
-                                            class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Exterior"
-                                        data-subcategory="Alumbrado público">• Alumbrado público <i
-                                            class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Tortugas">•
-                                        Tortugas <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Guirnalda">•
-                                        Guirnalda <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Iluminación Exterior" data-subcategory="Difusores">•
-                                        Difusores <i class="fas fa-chevron-right"></i></a></li>
+
+                        <!-- Supercategoría: Electricidad e Instalación -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Electricidad e Instalación">Electricidad e Instalación <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li><a href="#" data-category="Materiales Eléctricos">Materiales Eléctricos <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Materiales para instalaciones">Materiales para instalaciones <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Cables y Conductores">Cables y Conductores <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Línea aérea y morsetería">Línea aérea y morsetería <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Terminales y uniones">Terminales y uniones <i class="fas fa-chevron-right"></i></a></li>
                             </ul>
                         </li>
-                        <li class="hidden-category"><a href="#" data-category="Materiales Eléctricos">Materiales
-                                Eléctricos <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Materiales para instalaciones">Materiales
-                                para instalaciones <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Gabinetes">Gabinetes <i
-                                    class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Cajas para térmicas">Cajas para térmicas
-                                <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Cajas estancas">Cajas estancas <i
-                                    class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category">
-                            <a href="#" data-category="Protecciones eléctricas">Protecciones eléctricas <i
-                                    class="fas fa-chevron-right"></i></a>
-                            <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
-                                <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="Sica">• Sica
-                                        <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="Hager">• Hager
-                                        <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="Schneider">•
-                                        Schneider <i class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="LS">• LS <i
-                                            class="fas fa-chevron-right"></i></a></li>
+
+                        <!-- Supercategoría: Tableros y Distribución -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Tableros y Distribución">Tableros y Distribución <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li><a href="#" data-category="Gabinetes">Gabinetes <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Cajas para térmicas">Cajas para térmicas <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Cajas estancas">Cajas estancas <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Distribuidores">Distribuidores <i class="fas fa-chevron-right"></i></a></li>
                             </ul>
                         </li>
-                        <li class="hidden-category"><a href="#" data-category="Porteros eléctricos">Porteros eléctricos
-                                <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Herramientas">Herramientas <i
-                                    class="fas fa-chevron-right"></i></a>
-                        </li>
-                        <li class="hidden-category"><a href="#" data-category="Cables y Conductores">Cables y
-                                Conductores <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category">
-                            <a href="#" data-category="Ventiladores">Ventiladores <i
-                                    class="fas fa-chevron-right"></i></a>
-                            <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
-                                <li><a href="#" data-category="Ventiladores" data-subcategory="Techo">• Techo <i
-                                            class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Ventiladores" data-subcategory="Pared">• Pared <i
-                                            class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Ventiladores" data-subcategory="Pie">• Pie <i
-                                            class="fas fa-chevron-right"></i></a></li>
+
+                        <!-- Supercategoría: Protección Eléctrica -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Protección Eléctrica">Protección Eléctrica <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li>
+                                    <a href="#" data-category="Protecciones eléctricas">Protecciones eléctricas <i class="fas fa-chevron-right"></i></a>
+                                    <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
+                                        <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="Sica">• Sica <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="Hager">• Hager <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Protecciones eléctricas" data-subcategory="LS">• LS <i class="fas fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li class="hidden-category"><a href="#" data-category="Extractores">Extractores <i
-                                    class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Artefactos Solares">Artefactos Solares <i
-                                    class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Agua Caliente">Agua Caliente <i
-                                    class="fas fa-chevron-right"></i></a>
-                        </li>
-                        <li class="hidden-category">
-                            <a href="#" data-category="Sistemas modulares">Sistemas modulares <i
-                                    class="fas fa-chevron-right"></i></a>
-                            <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
-                                <li><a href="#" data-category="Sistemas modulares" data-subcategory="JELUZ">• JELUZ <i
-                                            class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Sistemas modulares" data-subcategory="KALOP">• KALOP <i
-                                            class="fas fa-chevron-right"></i></a></li>
-                                <li><a href="#" data-category="Sistemas modulares" data-subcategory="CAMBRE">• CAMBRE <i
-                                            class="fas fa-chevron-right"></i></a></li>
+
+                        <!-- Supercategoría: Automatización y Control -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Automatización y Control">Automatización y Control <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li>
+                                    <a href="#" data-category="Sistemas modulares">Sistemas modulares <i class="fas fa-chevron-right"></i></a>
+                                    <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
+                                        <li><a href="#" data-category="Sistemas modulares" data-subcategory="JELUZ">• JELUZ <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Sistemas modulares" data-subcategory="KALOP">• KALOP <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Sistemas modulares" data-subcategory="CAMBRE">• CAMBRE <i class="fas fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" data-category="Línea inteligente. Smart WiFi">Línea inteligente. Smart WiFi <i class="fas fa-chevron-right"></i></a></li>
+                                <li><a href="#" data-category="Porteros eléctricos">Porteros eléctricos <i class="fas fa-chevron-right"></i></a></li>
                             </ul>
                         </li>
-                        <li class="hidden-category"><a href="#" data-category="Línea inteligente. Smart WiFi">Línea
-                                inteligente. Smart WiFi <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Distribuidores">Distribuidores <i
-                                    class="fas fa-chevron-right"></i></a>
+
+                        <!-- Supercategoría: Ventilación y Climatización -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Ventilación y Climatización">Ventilación y Climatización <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li>
+                                    <a href="#" data-category="Ventiladores">Ventiladores <i class="fas fa-chevron-right"></i></a>
+                                    <ul class="subcategory-list" style="display: none; margin-left: 20px; margin-top: 8px;">
+                                        <li><a href="#" data-category="Ventiladores" data-subcategory="Techo">• Techo <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Ventiladores" data-subcategory="Pared">• Pared <i class="fas fa-chevron-right"></i></a></li>
+                                        <li><a href="#" data-category="Ventiladores" data-subcategory="Pie">• Pie <i class="fas fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" data-category="Extractores">Extractores <i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
                         </li>
-                        <li class="hidden-category"><a href="#" data-category="Línea aérea y morsetería">Línea aérea y
-                                morsetería <i class="fas fa-chevron-right"></i></a></li>
-                        <li class="hidden-category"><a href="#" data-category="Terminales y uniones">Terminales y
-                                uniones <i class="fas fa-chevron-right"></i></a></li>
+
+                        <!-- Supercategoría: Energía y Sustentabilidad -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Energía y Sustentabilidad">Energía y Sustentabilidad <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li><a href="#" data-category="Artefactos Solares">Artefactos Solares <i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Supercategoría: Agua y Confort -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Agua y Confort">Agua y Confort <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li><a href="#" data-category="Agua Caliente">Agua Caliente <i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Supercategoría: Herramientas -->
+                        <li class="supercategory-item hidden-category">
+                            <a href="#" data-supercategory="Herramientas">Herramientas <i class="fas fa-chevron-right"></i></a>
+                            <ul class="category-list" style="display: none; margin-top: 8px;">
+                                <li><a href="#" data-category="Herramientas">Herramientas <i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <button class="toggle-categories-btn" id="toggle-categories">
                         Ver más categorías <i class="fas fa-chevron-down"></i>

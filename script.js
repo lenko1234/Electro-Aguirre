@@ -147,8 +147,43 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, branch, category, categorySucursal, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, branch, category, categorySucursal, superCategory, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
+
+        // Mapeo de categorías a supercategorías para inferencia automática
+        const CATEGORY_TO_SUPERCATEGORY = {
+            'Iluminación Hogar': 'Iluminación',
+            'Iluminación Industrial': 'Iluminación',
+            'Iluminación Exterior': 'Iluminación',
+            'Artefactos Solares': 'Energía y Sustentabilidad',
+            'Materiales Eléctricos': 'Electricidad e Instalación',
+            'Materiales para instalaciones': 'Electricidad e Instalación',
+            'Cables y Conductores': 'Electricidad e Instalación',
+            'Línea aérea y morsetería': 'Electricidad e Instalación',
+            'Terminales y uniones': 'Electricidad e Instalación',
+            'Gabinetes': 'Tableros y Distribución',
+            'Cajas para térmicas': 'Tableros y Distribución',
+            'Cajas estancas': 'Tableros y Distribución',
+            'Distribuidores': 'Tableros y Distribución',
+            'Protecciones eléctricas': 'Protección Eléctrica',
+            'Sistemas modulares': 'Automatización y Control',
+            'Línea inteligente. Smart WiFi': 'Automatización y Control',
+            'Porteros eléctricos': 'Automatización y Control',
+            'Ventiladores': 'Ventilación y Climatización',
+            'Extractores': 'Ventilación y Climatización',
+            'Agua Caliente': 'Agua y Confort',
+            'Herramientas': 'Herramientas'
+        };
+
+        // Función para obtener la supercategoría de un producto (con fallback automático)
+        function getSupercategory(product) {
+            // Si el producto ya tiene superCategory asignada en Sanity, úsala
+            if (product.superCategory) {
+                return product.superCategory;
+            }
+            // Si no tiene, calcúlala automáticamente basándose en su categoría
+            return CATEGORY_TO_SUPERCATEGORY[product.category] || null;
+        }
 
         let allProducts = []; // Store all products globally
         let currentFilter = null; // Track current filter
@@ -328,9 +363,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeBranch = document.getElementById('btn-casa-central').classList.contains('active') ? 'casaCentral' : 'sucursalIluminacion';
             let filtered = allProducts.filter(p => (p.branch || 'casaCentral') === activeBranch);
 
+            // Check if the filter is a supercategory
+            const isSupercategory = category && ['Iluminación', 'Electricidad e Instalación', 'Tableros y Distribución', 'Protección Eléctrica', 'Automatización y Control', 'Ventilación y Climatización', 'Energía y Sustentabilidad', 'Agua y Confort', 'Herramientas'].includes(category);
+
             // Apply category filter
             if (category && !category.includes('Todos')) {
-                if (subcategory) {
+                if (isSupercategory) {
+                    // Filter by supercategory - show products from any category within this supercategory
+                    filtered = filtered.filter(p => {
+                        const productSupercat = getSupercategory(p);
+                        return productSupercat === category;
+                    });
+                } else if (subcategory) {
                     // Filter by both category and subcategory
                     filtered = filtered.filter(p => {
                         const productSubcategory = p.subcategorySistemasModulares || p.subcategoryVentiladores || p.subcategoryIluminacionExterior || p.subcategoryIluminacionHogar || p.subcategoryProteccionesElectricas || '';
@@ -366,7 +410,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         return link.getAttribute('data-subcategory') === subcategory;
                     }
                     const dataCategory = link.getAttribute('data-category');
-                    return (dataCategory === category) || link.textContent.trim().startsWith(category || 'Todos');
+                    const dataSupercategory = link.getAttribute('data-supercategory');
+                    return (dataCategory === category) || (dataSupercategory === category) || link.textContent.trim().startsWith(category || 'Todos');
                 });
 
             if (activeLink) {
@@ -377,6 +422,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Function to toggle subcategories
         function setupSubcategoryToggle() {
+            // Handle supercategories (new)
+            const supercategories = ['Iluminación', 'Electricidad e Instalación', 'Tableros y Distribución', 'Protección Eléctrica', 'Automatización y Control', 'Ventilación y Climatización', 'Energía y Sustentabilidad', 'Agua y Confort', 'Herramientas'];
+
+            supercategories.forEach(supercategoryName => {
+                const supercategoryLink = document.querySelector(`a[data-supercategory="${supercategoryName}"]`);
+                if (supercategoryLink) {
+                    const parentLi = supercategoryLink.closest('li');
+                    const categoryList = parentLi.querySelector('.category-list');
+
+                    if (categoryList) {
+                        // Toggle categories on supercategory click
+                        supercategoryLink.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const isVisible = categoryList.style.display === 'block';
+                            categoryList.style.display = isVisible ? 'none' : 'block';
+
+                            // Rotate the chevron icon
+                            const chevron = supercategoryLink.querySelector('i');
+                            if (chevron) {
+                                chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
+                                chevron.style.transition = 'transform 0.3s ease';
+                            }
+
+                            // Filter by supercategory
+                            filterByCategory(supercategoryName);
+                        });
+                    }
+                }
+            });
+
             // Handle categories with subcategories
             const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores', 'Iluminación Exterior', 'Iluminación Hogar', 'Protecciones eléctricas'];
 
@@ -418,10 +493,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Skip if this link is already handled by setupSubcategoryToggle
                 const category = link.getAttribute('data-category');
                 const subcategory = link.getAttribute('data-subcategory');
+                const supercategory = link.getAttribute('data-supercategory');
                 const categoriesWithSubcategories = ['Sistemas modulares', 'Ventiladores', 'Iluminación Exterior', 'Iluminación Hogar', 'Protecciones eléctricas'];
+                const supercategories = ['Iluminación', 'Electricidad e Instalación', 'Tableros y Distribución', 'Protección Eléctrica', 'Automatización y Control', 'Ventilación y Climatización', 'Energía y Sustentabilidad', 'Agua y Confort', 'Herramientas'];
 
                 // If this is a main category link with subcategories, skip it (handled by setupSubcategoryToggle)
                 if (category && !subcategory && categoriesWithSubcategories.includes(category)) {
+                    return;
+                }
+
+                // If this is a supercategory link, skip it (handled by setupSubcategoryToggle)
+                if (supercategory && supercategories.includes(supercategory)) {
                     return;
                 }
 

@@ -43,6 +43,25 @@ export const catalogoItemType = defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
+            name: 'superCategory',
+            title: 'Supercategoría',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Iluminación', value: 'Iluminación' },
+                    { title: 'Electricidad e Instalación', value: 'Electricidad e Instalación' },
+                    { title: 'Tableros y Distribución', value: 'Tableros y Distribución' },
+                    { title: 'Protección Eléctrica', value: 'Protección Eléctrica' },
+                    { title: 'Automatización y Control', value: 'Automatización y Control' },
+                    { title: 'Ventilación y Climatización', value: 'Ventilación y Climatización' },
+                    { title: 'Energía y Sustentabilidad', value: 'Energía y Sustentabilidad' },
+                    { title: 'Agua y Confort', value: 'Agua y Confort' },
+                    { title: 'Herramientas', value: 'Herramientas' },
+                ],
+            },
+            hidden: ({ parent }) => parent?.branch !== 'casaCentral',
+        }),
+        defineField({
             name: 'category',
             title: 'Categoría (Casa Central)',
             type: 'string',
@@ -195,7 +214,6 @@ export const catalogoItemType = defineType({
                 list: [
                     { title: 'Sica', value: 'Sica' },
                     { title: 'Hager', value: 'Hager' },
-                    { title: 'Schneider', value: 'Schneider' },
                     { title: 'LS', value: 'LS' },
                 ],
             },
