@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Porteros eléctricos': 'Automatización y Control',
             'Ventiladores': 'Ventilación y Climatización',
             'Extractores': 'Ventilación y Climatización',
+            'Calefacción': 'Ventilación y Climatización',
             'Agua Caliente': 'Agua y Confort',
             'Herramientas': 'Herramientas'
         };
