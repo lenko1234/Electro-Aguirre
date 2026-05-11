@@ -173,7 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'Extractores': 'Ventilación y Climatización',
             'Calefacción': 'Ventilación y Climatización',
             'Agua Caliente': 'Agua y Confort',
-            'Herramientas': 'Herramientas'
+            'Herramientas': 'Herramientas',
+            'Fichas macho y hembra': 'Electricidad e Instalación'
         };
 
         // Función para obtener la supercategoría de un producto (con fallback automático)

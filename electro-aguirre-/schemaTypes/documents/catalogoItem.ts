@@ -89,6 +89,7 @@ export const catalogoItemType = defineType({
                     { title: 'Distribuidores', value: 'Distribuidores' },
                     { title: 'Línea aérea y morsetería', value: 'Línea aérea y morsetería' },
                     { title: 'Terminales y uniones', value: 'Terminales y uniones' },
+                    { title: 'Fichas macho y hembra', value: 'Fichas macho y hembra' },
                 ],
             },
             hidden: ({ parent }) => parent?.branch !== 'casaCentral',
@@ -192,6 +193,7 @@ export const catalogoItemType = defineType({
             options: {
                 list: [
                     { title: 'Lámparas led', value: 'Lámparas led' },
+                    { title: 'Tubos led', value: 'Tubos led' },
                     { title: 'Apliques', value: 'Apliques' },
                     { title: 'Empotrables', value: 'Empotrables' },
                     { title: 'Colgantes', value: 'Colgantes' },
