@@ -550,12 +550,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const casaCentralHTML = categoriesList.innerHTML;
                     const sucursalIluminacionHTML = `
                         <li><a href="#" data-category="" style="color: var(--primary-color); font-weight: 600;">Todos los Productos <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#" data-category="Colgantes">Colgantes <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#" data-category="Veladores">Veladores <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#" data-category="Lámparas de escritorio">Lámparas de escritorio <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Lámparas de techo">Lámparas de techo <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Lámparas de pared">Lámparas de pared <i class="fas fa-chevron-right"></i></a></li>
                         <li><a href="#" data-category="Lámparas de pie">Lámparas de pie <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#" data-category="Spots">Spots <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#" data-category="Pantallas">Pantallas <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Lámparas de escritorio">Lámparas de escritorio <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Lámparas de exterior">Lámparas de exterior <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Veladores y Pantallas">Veladores y Pantallas <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Focos">Focos <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Rieles">Rieles <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#" data-category="Colgantes">Colgantes <i class="fas fa-chevron-right"></i></a></li>
                     `;
 
                     btnCasaCentral.addEventListener('click', () => {
