@@ -107,15 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // WhatsApp Consultation Logic for Product Cards
     // Resusable WhatsApp Logic
-    const whatsappNumber = '5493446530460';
+    const whatsappGeneral = '5493446530460';
+    const whatsappIluminacion = '5493442615264';
     function setupWhatsappButtons() {
         document.querySelectorAll('.product-card').forEach(card => {
             const title = card.querySelector('h3')?.textContent.trim();
             const consultBtn = card.querySelector('.btn');
+            const branch = card.dataset.branch;
 
             if (title && consultBtn && consultBtn.textContent.trim() === 'Consultar') {
                 const message = encodeURIComponent(`Hola, como estas? Quisiera consultar por: ${title}`);
-                consultBtn.href = `https://wa.me/${whatsappNumber}?text=${message}`;
+                
+                // Usar el número de iluminación si el producto es de esa sucursal
+                const currentNumber = branch === 'sucursalIluminacion' ? whatsappIluminacion : whatsappGeneral;
+                
+                consultBtn.href = `https://wa.me/${currentNumber}?text=${message}`;
                 consultBtn.target = '_blank';
                 consultBtn.setAttribute('rel', 'noopener noreferrer');
             }
