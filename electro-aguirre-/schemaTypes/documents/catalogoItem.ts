@@ -196,7 +196,7 @@ export const catalogoItemType = defineType({
             options: {
                 list: [
                     { title: 'Lámparas led', value: 'Lámparas led' },
-                    { title: 'Tubos led', value: 'Tubos led' },
+                    { title: 'Tubos y Listones led', value: 'Tubos y Listones led' },
                     { title: 'Apliques', value: 'Apliques' },
                     { title: 'Empotrables', value: 'Empotrables' },
                     { title: 'Colgantes', value: 'Colgantes' },

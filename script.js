@@ -537,7 +537,12 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(API_URL)
             .then(res => res.json())
             .then(({ result }) => {
-                allProducts = result || [];
+                allProducts = (result || []).map(p => {
+                    if (p.subcategoryIluminacionHogar === 'Tubos led') {
+                        p.subcategoryIluminacionHogar = 'Tubos y Listones led';
+                    }
+                    return p;
+                });
 
                 if (allProducts.length === 0) {
                     productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos cargados en este momento.</p>';
