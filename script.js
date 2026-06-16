@@ -164,6 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'Artefactos Solares': 'Energía y Sustentabilidad',
             'Materiales Eléctricos': 'Electricidad e Instalación',
             'Materiales para instalaciones': 'Electricidad e Instalación',
+            'Cable canal': 'Electricidad e Instalación',
+            'Bandejas portacables': 'Electricidad e Instalación',
             'Cables y Conductores': 'Electricidad e Instalación',
             'Línea aérea y morsetería': 'Electricidad e Instalación',
             'Terminales y uniones': 'Electricidad e Instalación',

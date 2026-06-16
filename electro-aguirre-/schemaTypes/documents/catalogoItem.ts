@@ -72,6 +72,8 @@ export const catalogoItemType = defineType({
                     { title: 'Iluminación Exterior', value: 'Iluminación Exterior' },
                     { title: 'Materiales Eléctricos', value: 'Materiales Eléctricos' },
                     { title: 'Materiales para instalaciones', value: 'Materiales para instalaciones' },
+                    { title: 'Cable canal', value: 'Cable canal' },
+                    { title: 'Bandejas portacables', value: 'Bandejas portacables' },
                     { title: 'Gabinetes', value: 'Gabinetes' },
                     { title: 'Cajas para térmicas', value: 'Cajas para térmicas' },
                     { title: 'Cajas estancas', value: 'Cajas estancas' },
