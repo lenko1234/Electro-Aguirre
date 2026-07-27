@@ -1,0 +1,227 @@
+import { SparklesIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity'
+
+export const featuredCategoriesType = defineType({
+  name: 'featuredCategories',
+  title: 'Destacar Categorías / Marcas',
+  type: 'document',
+  icon: SparklesIcon,
+  fieldsets: [
+    { name: 'herramientas', title: '🛠️ Herramientas', options: { collapsible: true, collapsed: false } },
+    { name: 'protecciones', title: '⚡ Protecciones Eléctricas', options: { collapsible: true, collapsed: true } },
+    { name: 'sistemasModulares', title: '🔌 Sistemas Modulares', options: { collapsible: true, collapsed: true } },
+    { name: 'iluminacionHogar', title: '💡 Iluminación Hogar', options: { collapsible: true, collapsed: true } },
+    { name: 'iluminacionExterior', title: '🌙 Iluminación Exterior', options: { collapsible: true, collapsed: true } },
+    { name: 'ventiladores', title: '🌀 Ventiladores', options: { collapsible: true, collapsed: true } },
+  ],
+  fields: [
+    // Herramientas
+    defineField({
+      name: 'featured_UNI_T',
+      title: 'Destacar UNI-T',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Jadever',
+      title: 'Destacar Jadever',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_FullEnergy',
+      title: 'Destacar FullEnergy',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Viyilant',
+      title: 'Destacar Viyilant',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Baw',
+      title: 'Destacar Baw',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Kalop',
+      title: 'Destacar Kalop',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Bulit',
+      title: 'Destacar Bulit',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+
+    // Protecciones Eléctricas
+    defineField({
+      name: 'featured_Sica',
+      title: 'Destacar Sica',
+      type: 'boolean',
+      fieldset: 'protecciones',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Hager',
+      title: 'Destacar Hager',
+      type: 'boolean',
+      fieldset: 'protecciones',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_LS',
+      title: 'Destacar LS',
+      type: 'boolean',
+      fieldset: 'protecciones',
+      initialValue: false,
+    }),
+
+    // Sistemas Modulares
+    defineField({
+      name: 'featured_JELUZ',
+      title: 'Destacar JELUZ',
+      type: 'boolean',
+      fieldset: 'sistemasModulares',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_KALOP',
+      title: 'Destacar KALOP',
+      type: 'boolean',
+      fieldset: 'sistemasModulares',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_CAMBRE',
+      title: 'Destacar CAMBRE',
+      type: 'boolean',
+      fieldset: 'sistemasModulares',
+      initialValue: false,
+    }),
+
+    // Iluminación Hogar
+    defineField({
+      name: 'featured_Lamparas_led',
+      title: 'Destacar Lámparas led',
+      type: 'boolean',
+      fieldset: 'iluminacionHogar',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Tubos_y_Listones_led',
+      title: 'Destacar Tubos y Listones led',
+      type: 'boolean',
+      fieldset: 'iluminacionHogar',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Apliques',
+      title: 'Destacar Apliques',
+      type: 'boolean',
+      fieldset: 'iluminacionHogar',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Empotrables',
+      title: 'Destacar Empotrables',
+      type: 'boolean',
+      fieldset: 'iluminacionHogar',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Colgantes',
+      title: 'Destacar Colgantes',
+      type: 'boolean',
+      fieldset: 'iluminacionHogar',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Spots',
+      title: 'Destacar Spots',
+      type: 'boolean',
+      fieldset: 'iluminacionHogar',
+      initialValue: false,
+    }),
+
+    // Iluminación Exterior
+    defineField({
+      name: 'featured_Proyectores_LED',
+      title: 'Destacar Proyectores LED',
+      type: 'boolean',
+      fieldset: 'iluminacionExterior',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Alumbrado_publico',
+      title: 'Destacar Alumbrado público',
+      type: 'boolean',
+      fieldset: 'iluminacionExterior',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Tortugas',
+      title: 'Destacar Tortugas',
+      type: 'boolean',
+      fieldset: 'iluminacionExterior',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Guirnalda',
+      title: 'Destacar Guirnalda',
+      type: 'boolean',
+      fieldset: 'iluminacionExterior',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Difusores',
+      title: 'Destacar Difusores',
+      type: 'boolean',
+      fieldset: 'iluminacionExterior',
+      initialValue: false,
+    }),
+
+    // Ventiladores
+    defineField({
+      name: 'featured_Techo',
+      title: 'Destacar Techo',
+      type: 'boolean',
+      fieldset: 'ventiladores',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Pared',
+      title: 'Destacar Pared',
+      type: 'boolean',
+      fieldset: 'ventiladores',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Pie',
+      title: 'Destacar Pie',
+      type: 'boolean',
+      fieldset: 'ventiladores',
+      initialValue: false,
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Destacar Categorías / Marcas',
+        subtitle: 'Configuración de prioridad en catálogo',
+      }
+    },
+  },
+})

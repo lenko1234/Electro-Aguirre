@@ -153,8 +153,54 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productsGrid) {
         const PROJECT_ID = 'gbe69kxi';
         const DATASET = 'production';
-        const QUERY = encodeURIComponent('*[_type == "catalogoItem"]{title, description, branch, category, categorySucursal, superCategory, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}');
+        const QUERY = encodeURIComponent('{ "products": *[_type == "catalogoItem"]{title, description, branch, category, categorySucursal, superCategory, subcategorySistemasModulares, subcategoryVentiladores, subcategoryIluminacionExterior, subcategoryIluminacionHogar, subcategoryProteccionesElectricas, "imageUrl": image.asset->url}, "featured": *[_type == "featuredCategories"][0] }');
         const API_URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
+
+        let featuredDoc = {};
+
+        function normalizeKey(str) {
+            if (!str) return '';
+            return String(str)
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9]/g, '_');
+        }
+
+        function isProductFeatured(product) {
+            if (!featuredDoc) return false;
+            const cat = product.category || product.categorySucursal || '';
+            const subcat = product.subcategorySistemasModulares || product.subcategoryVentiladores || product.subcategoryIluminacionExterior || product.subcategoryIluminacionHogar || product.subcategoryProteccionesElectricas || '';
+            
+            const catKey = 'featured_' + normalizeKey(cat);
+            const subcatKey = 'featured_' + normalizeKey(subcat);
+
+            return !!(featuredDoc[catKey] || featuredDoc[subcatKey]);
+        }
+
+        function reorderSidebarMenu() {
+            if (!featuredDoc) return;
+            document.querySelectorAll('.category-list, .subcategory-list').forEach(list => {
+                const items = Array.from(list.children);
+                items.sort((a, b) => {
+                    const linkA = a.querySelector('a');
+                    const linkB = b.querySelector('a');
+                    const catA = linkA ? (linkA.getAttribute('data-subcategory') || linkA.getAttribute('data-category') || '') : '';
+                    const catB = linkB ? (linkB.getAttribute('data-subcategory') || linkB.getAttribute('data-category') || '') : '';
+
+                    const keyA = 'featured_' + normalizeKey(catA);
+                    const keyB = 'featured_' + normalizeKey(catB);
+
+                    const isA = !!featuredDoc[keyA];
+                    const isB = !!featuredDoc[keyB];
+
+                    if (isA !== isB) {
+                        return isB ? 1 : -1;
+                    }
+                    return 0;
+                });
+                items.forEach(item => list.appendChild(item));
+            });
+        }
 
         // Mapeo de categorías a supercategorías para inferencia automática
         const CATEGORY_TO_SUPERCATEGORY = {
@@ -254,6 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const sortedProducts = [...products].sort((a, b) => {
+                // Priority 0: Featured brands/categories come first
+                const featuredA = isProductFeatured(a) ? 1 : 0;
+                const featuredB = isProductFeatured(b) ? 1 : 0;
+                if (featuredA !== featuredB) {
+                    return featuredB - featuredA;
+                }
 
                 // Extract model code for LCT products (e.g., "PKD-14" from "LCT PKD-14 – Morseto...")
                 const getLCTModelCode = (title) => {
@@ -502,6 +554,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Define attachFilterHandlers within this scope
         function attachFilterHandlers() {
+            // Reorder sidebar items based on featured switches
+            reorderSidebarMenu();
+
             // Re-setup subcategory toggle
             setupSubcategoryToggle();
 
@@ -546,7 +601,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(API_URL)
             .then(res => res.json())
             .then(({ result }) => {
-                allProducts = (result || []).map(p => {
+                const rawProducts = result?.products || (Array.isArray(result) ? result : []);
+                featuredDoc = result?.featured || {};
+
+                allProducts = rawProducts.map(p => {
                     if (p.subcategoryIluminacionHogar === 'Tubos led') {
                         p.subcategoryIluminacionHogar = 'Tubos y Listones led';
                     }
@@ -557,6 +615,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos cargados en este momento.</p>';
                     return;
                 }
+
+                // Reorder sidebar menu based on featured switches
+                reorderSidebarMenu();
 
                 // Render products for the active branch initially
                 filterByCategory(null);

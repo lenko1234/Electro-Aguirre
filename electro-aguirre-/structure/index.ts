@@ -5,6 +5,7 @@ import home from './homeStructure'
 import pages from './pageStructure'
 import products from './productStructure'
 import settings from './settingStructure'
+import featuredCategories from './featuredCategoriesStructure'
 
 /**
  * Structure overrides
@@ -30,6 +31,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
   return ![
     'collection',
     'colorTheme',
+    'featuredCategories',
     'home',
     'media.tag',
     'page',
@@ -51,6 +53,7 @@ export const structure: StructureResolver = (S, context) =>
       S.divider(),
       colorThemes(S, context),
       S.divider(),
+      featuredCategories(S, context),
       settings(S, context),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
