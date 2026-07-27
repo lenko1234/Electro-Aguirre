@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'FullEnergy': 'Herramientas',
             'Viyilant': 'Herramientas',
             'Baw': 'Herramientas',
+            'Kalop': 'Herramientas',
             'Fichas macho y hembra': 'Electricidad e Instalación'
         };
 
