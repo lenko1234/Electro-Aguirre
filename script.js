@@ -182,6 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'Calefacción': 'Ventilación y Climatización',
             'Agua Caliente': 'Agua y Confort',
             'Herramientas': 'Herramientas',
+            'UNI-T': 'Herramientas',
+            'Jadever': 'Herramientas',
+            'FullEnergy': 'Herramientas',
+            'Viyilant': 'Herramientas',
+            'Baw': 'Herramientas',
             'Fichas macho y hembra': 'Electricidad e Instalación'
         };
 
