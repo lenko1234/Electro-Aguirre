@@ -86,6 +86,7 @@ export const catalogoItemType = defineType({
                     { title: 'Viyilant', value: 'Viyilant' },
                     { title: 'Baw', value: 'Baw' },
                     { title: 'Kalop', value: 'Kalop' },
+                    { title: 'Bulit', value: 'Bulit' },
                     { title: 'Cables y Conductores', value: 'Cables y Conductores' },
                     { title: 'Ventiladores', value: 'Ventiladores' },
                     { title: 'Extractores', value: 'Extractores' },

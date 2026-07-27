@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Viyilant': 'Herramientas',
             'Baw': 'Herramientas',
             'Kalop': 'Herramientas',
+            'Bulit': 'Herramientas',
             'Fichas macho y hembra': 'Electricidad e Instalación'
         };
 
