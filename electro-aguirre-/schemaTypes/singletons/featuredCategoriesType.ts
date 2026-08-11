@@ -186,8 +186,15 @@ export const featuredCategoriesType = defineType({
       initialValue: false,
     }),
     defineField({
-      name: 'featured_Difusores',
-      title: 'Destacar Difusores',
+      name: 'featured_GRALF',
+      title: 'Destacar GRALF',
+      type: 'boolean',
+      fieldset: 'herramientas',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Faroles',
+      title: 'Destacar Faroles',
       type: 'boolean',
       fieldset: 'iluminacionExterior',
       initialValue: false,
