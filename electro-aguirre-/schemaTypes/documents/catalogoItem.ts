@@ -75,6 +75,7 @@ export const catalogoItemType = defineType({
                     { title: 'Cable canal', value: 'Cable canal' },
                     { title: 'Bandejas portacables', value: 'Bandejas portacables' },
                     { title: 'Gabinetes', value: 'Gabinetes' },
+                    { title: 'Tableros para tomas', value: 'Tableros para tomas' },
                     { title: 'Cajas para térmicas', value: 'Cajas para térmicas' },
                     { title: 'Cajas estancas', value: 'Cajas estancas' },
                     { title: 'Protecciones eléctricas', value: 'Protecciones eléctricas' },

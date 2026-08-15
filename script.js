@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Línea aérea y morsetería': 'Electricidad e Instalación',
             'Terminales y uniones': 'Electricidad e Instalación',
             'Gabinetes': 'Tableros y Distribución',
+            'Tableros para tomas': 'Tableros y Distribución',
             'Cajas para térmicas': 'Tableros y Distribución',
             'Cajas estancas': 'Tableros y Distribución',
             'Distribuidores': 'Tableros y Distribución',
