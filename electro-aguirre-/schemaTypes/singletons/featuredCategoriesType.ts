@@ -9,6 +9,7 @@ export const featuredCategoriesType = defineType({
   fieldsets: [
     { name: 'herramientas', title: '🛠️ Herramientas', options: { collapsible: true, collapsed: false } },
     { name: 'protecciones', title: '⚡ Protecciones Eléctricas', options: { collapsible: true, collapsed: true } },
+    { name: 'electricidad', title: '🔧 Electricidad e Instalación', options: { collapsible: true, collapsed: true } },
     { name: 'sistemasModulares', title: '🔌 Sistemas Modulares', options: { collapsible: true, collapsed: true } },
     { name: 'iluminacionHogar', title: '💡 Iluminación Hogar', options: { collapsible: true, collapsed: true } },
     { name: 'iluminacionExterior', title: '🌙 Iluminación Exterior', options: { collapsible: true, collapsed: true } },
@@ -86,6 +87,64 @@ export const featuredCategoriesType = defineType({
       title: 'Destacar LS',
       type: 'boolean',
       fieldset: 'protecciones',
+      initialValue: false,
+    }),
+
+    // Electricidad e Instalación
+    defineField({
+      name: 'featured_Materiales_Electricos',
+      title: 'Destacar Materiales Eléctricos',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Materiales_para_instalaciones',
+      title: 'Destacar Materiales para instalaciones',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Cable_canal',
+      title: 'Destacar Cable canal',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Bandejas_portacables',
+      title: 'Destacar Bandejas portacables',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Cables_y_Conductores',
+      title: 'Destacar Cables y Conductores',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Linea_aerea_y_moseteria',
+      title: 'Destacar Línea aérea y morsetería',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Terminales_y_uniones',
+      title: 'Destacar Terminales y uniones',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Fichas_macho_y_hembra',
+      title: 'Destacar Fichas macho y hembra',
+      type: 'boolean',
+      fieldset: 'electricidad',
       initialValue: false,
     }),
 
@@ -189,7 +248,7 @@ export const featuredCategoriesType = defineType({
       name: 'featured_GRALF',
       title: 'Destacar GRALF',
       type: 'boolean',
-      fieldset: 'herramientas',
+      fieldset: 'iluminacionExterior',
       initialValue: false,
     }),
     defineField({
