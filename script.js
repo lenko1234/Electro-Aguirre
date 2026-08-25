@@ -166,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace(/[^a-zA-Z0-9]/g, '_');
         }
 
+        function optimizeImageUrl(url, width = 800) {
+            if (!url) return null;
+            return `${url}?auto=format&q=80&w=${width}`;
+        }
+
         function isProductFeatured(product) {
             if (!featuredDoc) return false;
             const cat = product.category || product.categorySucursal || '';
@@ -397,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 article.dataset.subcategory = subcategory;
                 article.dataset.branch = product.branch || 'casaCentral';
 
-                const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
+                const imgSrc = optimizeImageUrl(product.imageUrl) || 'https://via.placeholder.com/300x300?text=No+Image';
 
                 article.innerHTML = `
                     <div class="card-image">
@@ -708,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const article = document.createElement('article');
                     article.className = 'product-card';
 
-                    const imgSrc = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
+                    const imgSrc = optimizeImageUrl(product.imageUrl) || 'https://via.placeholder.com/300x300?text=No+Image';
 
                     article.innerHTML = `
                         <div class="card-image">
