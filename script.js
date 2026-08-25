@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace(/[^a-zA-Z0-9]/g, '_');
         }
 
-        function optimizeImageUrl(url, width = 800) {
+        function optimizeImageUrl(url, width = 300) {
             if (!url) return null;
             return `${url}?auto=format&q=80&w=${width}`;
         }
@@ -260,12 +260,85 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentSubcategoryFilter = null; // Track current subcategory filter
         let currentSearchTerm = ''; // Track current search term
 
+        const PAGE_SIZE = 24;
+        let currentPage = 0;       // cuántas "páginas" se han mostrado
+        let currentSortedProducts = []; // productos ordenados de la vista actual
+
+        function renderBatch(sortedProducts, append = false) {
+            if (!append) {
+                productsGrid.innerHTML = '';
+                currentPage = 0;
+                currentSortedProducts = sortedProducts;
+            }
+
+            const start = currentPage * PAGE_SIZE;
+            const batch = sortedProducts.slice(start, start + PAGE_SIZE);
+            currentPage++;
+
+            batch.forEach(product => {
+                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || product.subcategoryIluminacionExterior || product.subcategoryIluminacionHogar || product.subcategoryProteccionesElectricas || '';
+
+                const article = document.createElement('article');
+                article.className = 'product-card';
+                article.dataset.category = product.category || product.categorySucursal || '';
+                article.dataset.subcategory = subcategory;
+                article.dataset.branch = product.branch || 'casaCentral';
+
+                const imgSrc = optimizeImageUrl(product.imageUrl) || 'https://via.placeholder.com/300x300?text=No+Image';
+
+                article.innerHTML = `
+                    <div class="card-image">
+                        <img src="${imgSrc}" alt="${product.title}" loading="lazy" decoding="async">
+                    </div>
+                    <div class="card-content">
+                        <h3>${product.title}</h3>
+                        <p>${product.description || ''}</p>
+                        <a href="#" class="btn btn-outline"
+                            aria-label="Consultar por ${product.title}"
+                            style="background: var(--primary-color); color: white; margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
+                    </div>
+                `;
+
+                article.style.opacity = '0';
+                article.style.transform = 'translateY(20px)';
+                article.style.transition = 'all 0.6s ease-out';
+
+                productsGrid.appendChild(article);
+                observer.observe(article);
+            });
+
+            setupWhatsappButtons();
+            updateLoadMoreButton(sortedProducts);
+        }
+
+        function updateLoadMoreButton(sortedProducts) {
+            let btn = document.getElementById('load-more-btn');
+            const shown = currentPage * PAGE_SIZE;
+            const hasMore = shown < sortedProducts.length;
+
+            if (hasMore) {
+                if (!btn) {
+                    btn = document.createElement('div');
+                    btn.id = 'load-more-btn';
+                    btn.style.cssText = 'grid-column: 1/-1; text-align: center; margin-top: 20px; padding-bottom: 20px;';
+                    btn.innerHTML = `<button style="padding: 12px 40px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: inherit;">Cargar más productos</button>`;
+                    btn.querySelector('button').addEventListener('click', () => {
+                        renderBatch(currentSortedProducts, true);
+                    });
+                    productsGrid.parentNode.insertBefore(btn, productsGrid.nextSibling);
+                }
+                btn.style.display = 'block';
+            } else {
+                if (btn) btn.style.display = 'none';
+            }
+        }
+
         // Function to render products
         function renderProducts(products) {
-            productsGrid.innerHTML = ''; // Clear grid
-
             if (!products || products.length === 0) {
                 productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos en esta categoría.</p>';
+                const btn = document.getElementById('load-more-btn');
+                if (btn) btn.style.display = 'none';
                 return;
             }
 
@@ -307,128 +380,46 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const sortedProducts = [...products].sort((a, b) => {
-                // Priority 0: Featured brands/categories come first
                 const featuredA = isProductFeatured(a) ? 1 : 0;
                 const featuredB = isProductFeatured(b) ? 1 : 0;
-                if (featuredA !== featuredB) {
-                    return featuredB - featuredA;
-                }
+                if (featuredA !== featuredB) return featuredB - featuredA;
 
-                // Extract model code for LCT products (e.g., "PKD-14" from "LCT PKD-14 – Morseto...")
                 const getLCTModelCode = (title) => {
                     const lctMatch = title.match(/LCT\s+([A-Z]+-[\dA-Z]+)/i);
-                    if (lctMatch) {
-                        return lctMatch[1];
-                    }
-                    return null;
+                    return lctMatch ? lctMatch[1] : null;
                 };
 
-                // Extract numbers from titles with priority for amperage ratings
                 const getNumber = (title) => {
-                    // 1. Try to match range pattern (e.g., "1 - 1,6A" or "1,6A - 2,5A")
                     const rangeMatch = title.match(/(\d+(?:[.,]\d+)?)(?:\s*A)?\s*-\s*(\d+(?:[.,]\d+)?)\s*A/i);
-                    if (rangeMatch) {
-                        return parseFloat(rangeMatch[1].replace(',', '.'));
-                    }
-
-                    // 2. Try to match amperage pattern (e.g., "1x50A" -> 50, or "10A")
-                    // Prioritize numbers that are followed by "A" (Amperes)
-                    const ampPattern = /(\d+(?:[.,]\d+)?)\s*A/i;
-                    const ampMatch = title.match(ampPattern);
-                    if (ampMatch) {
-                        return parseFloat(ampMatch[1].replace(',', '.'));
-                    }
-
+                    if (rangeMatch) return parseFloat(rangeMatch[1].replace(',', '.'));
+                    const ampMatch = title.match(/(\d+(?:[.,]\d+)?)\s*A/i);
+                    if (ampMatch) return parseFloat(ampMatch[1].replace(',', '.'));
                     const xAmpMatch = title.match(/\d+x(\d+)A/i);
-                    if (xAmpMatch) {
-                        return parseFloat(xAmpMatch[1].replace(',', '.'));
-                    }
-
-                    // 3. For LCT products, extract the number from the model code
+                    if (xAmpMatch) return parseFloat(xAmpMatch[1].replace(',', '.'));
                     const modelCode = getLCTModelCode(title);
                     if (modelCode) {
                         const numberMatch = modelCode.match(/(\d+)/);
-                        if (numberMatch) {
-                            return parseFloat(numberMatch[1]);
-                        }
+                        if (numberMatch) return parseFloat(numberMatch[1]);
                     }
-
-                    // 4. Then try to match general numbers (e.g., "JELUZ. 20092" -> 20092)
                     const numberMatch = title.match(/(\d+(?:[.,/]\d+)?)/);
-                    if (numberMatch) {
-                        return parseFloat(numberMatch[1].replace(',', '.').replace('/', '.'));
-                    }
-
+                    if (numberMatch) return parseFloat(numberMatch[1].replace(',', '.').replace('/', '.'));
                     return null;
                 };
 
                 const groupA = getGroupPriority(a.title);
                 const groupB = getGroupPriority(b.title);
+                if (groupA !== groupB) return groupA - groupB;
 
-                // Different groups - sort by group priority
-                if (groupA !== groupB) {
-                    return groupA - groupB;
-                }
-
-                // Same group - sort by numbers if available
                 const numA = getNumber(a.title);
                 const numB = getNumber(b.title);
-
-                // Both have numbers - sort numerically
-                if (numA !== null && numB !== null) {
-                    if (numA !== numB) {
-                        return numA - numB;
-                    }
-                    // If numbers are same (e.g. 10A vs 10A), fall back to alphabetical
-                }
-
-                // Only A has a number - A comes first
+                if (numA !== null && numB !== null && numA !== numB) return numA - numB;
                 if (numA !== null) return -1;
-
-                // Only B has a number - B comes first
                 if (numB !== null) return 1;
-
-                // Neither has numbers - sort alphabetically
                 return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
             });
 
-            sortedProducts.forEach(product => {
-                // Combine subcategories into one field
-                const subcategory = product.subcategorySistemasModulares || product.subcategoryVentiladores || product.subcategoryIluminacionExterior || product.subcategoryIluminacionHogar || product.subcategoryProteccionesElectricas || '';
-
-                const article = document.createElement('article');
-                article.className = 'product-card';
-                article.dataset.category = product.category || product.categorySucursal || '';
-                article.dataset.subcategory = subcategory;
-                article.dataset.branch = product.branch || 'casaCentral';
-
-                const imgSrc = optimizeImageUrl(product.imageUrl) || 'https://via.placeholder.com/300x300?text=No+Image';
-
-                article.innerHTML = `
-                    <div class="card-image">
-                        <img src="${imgSrc}" alt="${product.title}">
-                    </div>
-                    <div class="card-content">
-                        <h3>${product.title}</h3>
-                        <p>${product.description || ''}</p>
-                        <a href="#" class="btn btn-outline"
-                            style="background: var(--primary-color); color: white; margin-top: 15px; font-size: 0.9rem; padding: 8px 20px;">Consultar</a>
-                    </div>
-                `;
-
-                // Apply animation styles
-                article.style.opacity = '0';
-                article.style.transform = 'translateY(20px)';
-                article.style.transition = 'all 0.6s ease-out';
-
-                productsGrid.appendChild(article);
-
-                // Observe for animation
-                observer.observe(article);
-            });
-
-            // Setup buttons for new elements
-            setupWhatsappButtons();
+            // Render first batch
+            renderBatch(sortedProducts);
         }
 
         // Function to filter products by category and subcategory
@@ -717,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     article.innerHTML = `
                         <div class="card-image">
-                            <img src="${imgSrc}" alt="${product.title}">
+                            <img src="${imgSrc}" alt="${product.title}" loading="lazy" decoding="async">
                         </div>
                         <div class="card-content">
                             <h3>${product.title}</h3>
