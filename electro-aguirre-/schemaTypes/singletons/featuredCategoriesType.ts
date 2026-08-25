@@ -147,6 +147,13 @@ export const featuredCategoriesType = defineType({
       fieldset: 'electricidad',
       initialValue: false,
     }),
+    defineField({
+      name: 'featured_Interruptores_conmutadores_e_inversores',
+      title: 'Destacar Interruptores, conmutadores e inversores',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
 
     // Sistemas Modulares
     defineField({
