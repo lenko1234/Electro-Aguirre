@@ -148,6 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // Shared utility: optimize Sanity image URLs
+    function optimizeImageUrl(url, width = 200) {
+        if (!url) return null;
+        return `${url}?auto=format&q=80&w=${width}`;
+    }
+
     // Sanity Integration with Filtering
     const productsGrid = document.getElementById('products-grid');
     if (productsGrid) {
@@ -164,11 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .replace(/[^a-zA-Z0-9]/g, '_');
-        }
-
-        function optimizeImageUrl(url, width = 200) {
-            if (!url) return null;
-            return `${url}?auto=format&q=80&w=${width}`;
         }
 
         function isProductFeatured(product) {
