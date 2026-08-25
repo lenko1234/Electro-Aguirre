@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace(/[^a-zA-Z0-9]/g, '_');
         }
 
-        function optimizeImageUrl(url, width = 300) {
+        function optimizeImageUrl(url, width = 200) {
             if (!url) return null;
             return `${url}?auto=format&q=80&w=${width}`;
         }
