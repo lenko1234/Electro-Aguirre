@@ -225,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Tableros para tomas': 'Tableros y Distribución',
             'Cajas para térmicas': 'Tableros y Distribución',
             'Cajas estancas': 'Tableros y Distribución',
+            'Cajas para derivaciones': 'Tableros y Distribución',
             'Distribuidores': 'Tableros y Distribución',
             'Protecciones eléctricas': 'Protección Eléctrica',
             'Sistemas modulares': 'Automatización y Control',

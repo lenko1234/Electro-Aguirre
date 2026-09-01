@@ -10,6 +10,7 @@ export const featuredCategoriesType = defineType({
     { name: 'herramientas', title: '🛠️ Herramientas', options: { collapsible: true, collapsed: false } },
     { name: 'protecciones', title: '⚡ Protecciones Eléctricas', options: { collapsible: true, collapsed: true } },
     { name: 'electricidad', title: '🔧 Electricidad e Instalación', options: { collapsible: true, collapsed: true } },
+    { name: 'tableros', title: '📦 Tableros y Distribución', options: { collapsible: true, collapsed: true } },
     { name: 'sistemasModulares', title: '🔌 Sistemas Modulares', options: { collapsible: true, collapsed: true } },
     { name: 'iluminacionHogar', title: '💡 Iluminación Hogar', options: { collapsible: true, collapsed: true } },
     { name: 'iluminacionExterior', title: '🌙 Iluminación Exterior', options: { collapsible: true, collapsed: true } },
@@ -152,6 +153,50 @@ export const featuredCategoriesType = defineType({
       title: 'Destacar Interruptores, conmutadores e inversores',
       type: 'boolean',
       fieldset: 'electricidad',
+      initialValue: false,
+    }),
+
+    // Tableros y Distribución
+    defineField({
+      name: 'featured_Gabinetes',
+      title: 'Destacar Gabinetes',
+      type: 'boolean',
+      fieldset: 'tableros',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Tableros_para_tomas',
+      title: 'Destacar Tableros para tomas',
+      type: 'boolean',
+      fieldset: 'tableros',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Cajas_para_termicas',
+      title: 'Destacar Cajas para térmicas',
+      type: 'boolean',
+      fieldset: 'tableros',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Cajas_estancas',
+      title: 'Destacar Cajas estancas',
+      type: 'boolean',
+      fieldset: 'tableros',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Cajas_para_derivaciones',
+      title: 'Destacar Cajas para derivaciones',
+      type: 'boolean',
+      fieldset: 'tableros',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured_Distribuidores',
+      title: 'Destacar Distribuidores',
+      type: 'boolean',
+      fieldset: 'tableros',
       initialValue: false,
     }),
 

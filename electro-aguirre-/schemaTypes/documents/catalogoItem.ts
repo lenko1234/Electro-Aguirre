@@ -78,6 +78,7 @@ export const catalogoItemType = defineType({
                     { title: 'Tableros para tomas', value: 'Tableros para tomas' },
                     { title: 'Cajas para térmicas', value: 'Cajas para térmicas' },
                     { title: 'Cajas estancas', value: 'Cajas estancas' },
+                    { title: 'Cajas para derivaciones', value: 'Cajas para derivaciones' },
                     { title: 'Protecciones eléctricas', value: 'Protecciones eléctricas' },
                     { title: 'Porteros eléctricos', value: 'Porteros eléctricos' },
                     { title: 'Herramientas', value: 'Herramientas' },
