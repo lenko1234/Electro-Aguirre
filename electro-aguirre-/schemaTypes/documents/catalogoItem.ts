@@ -233,6 +233,7 @@ export const catalogoItemType = defineType({
             options: {
                 list: [
                     { title: 'Sica', value: 'Sica' },
+                    { title: 'Gralf', value: 'Gralf' },
                     { title: 'Hager', value: 'Hager' },
                     { title: 'LS', value: 'LS' },
                 ],

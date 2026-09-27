@@ -77,6 +77,13 @@ export const featuredCategoriesType = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'featured_Gralf',
+      title: 'Destacar Gralf',
+      type: 'boolean',
+      fieldset: 'protecciones',
+      initialValue: false,
+    }),
+    defineField({
       name: 'featured_Hager',
       title: 'Destacar Hager',
       type: 'boolean',
