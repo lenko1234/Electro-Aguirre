@@ -101,6 +101,7 @@ export const catalogoItemType = defineType({
                     { title: 'Distribuidores', value: 'Distribuidores' },
                     { title: 'Línea aérea y morsetería', value: 'Línea aérea y morsetería' },
                     { title: 'Terminales y uniones', value: 'Terminales y uniones' },
+                    { title: 'Fichas industriales', value: 'Fichas industriales' },
                     { title: 'Fichas macho y hembra', value: 'Fichas macho y hembra' },
                     { title: 'Interruptores, conmutadores e inversores', value: 'Interruptores, conmutadores e inversores' },
                 ],

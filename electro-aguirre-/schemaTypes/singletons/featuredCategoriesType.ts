@@ -149,6 +149,13 @@ export const featuredCategoriesType = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'featured_Fichas_industriales',
+      title: 'Destacar Fichas industriales',
+      type: 'boolean',
+      fieldset: 'electricidad',
+      initialValue: false,
+    }),
+    defineField({
       name: 'featured_Fichas_macho_y_hembra',
       title: 'Destacar Fichas macho y hembra',
       type: 'boolean',

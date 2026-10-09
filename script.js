@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Baw': 'Herramientas',
             'Kalop': 'Herramientas',
             'Bulit': 'Herramientas',
+            'Fichas industriales': 'Electricidad e Instalación',
             'Fichas macho y hembra': 'Electricidad e Instalación',
             'Interruptores, conmutadores e inversores': 'Electricidad e Instalación'
         };
